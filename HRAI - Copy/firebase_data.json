@@ -1,0 +1,809 @@
+{
+  "appConfig": {
+    "appName": "derivHR",
+    "version": "2.0.0",
+    "tagline": "AI-Powered HR Operations",
+    "currentDate": "2026-02-08",
+    "timezone": "Asia/Kuala_Lumpur"
+  },
+
+  "currentUser": {
+    "uid": "usr-001",
+    "name": "Ahmad Ramly",
+    "initials": "AR",
+    "email": "ahmad.ramly@deriv.com",
+    "role": "HR Manager",
+    "department": "HR & Legal",
+    "location": "Kuala Lumpur, MY",
+    "avatar": "linear-gradient(135deg,#6366f1,#818cf8)",
+    "permissions": ["dashboard", "people", "contracts", "compliance", "analytics", "settings", "contract-generator"],
+    "preferences": {
+      "theme": "light",
+      "language": "en",
+      "notifications": true,
+      "sidebarCollapsed": false
+    }
+  },
+
+  "company": {
+    "name": "Deriv Group",
+    "legalName": "Deriv Holdings Sdn Bhd",
+    "industry": "Financial Technology",
+    "registrationNo": "202001012345",
+    "hq": "Kuala Lumpur, Malaysia",
+    "founded": "2000",
+    "website": "https://deriv.com",
+    "totalEmployees": 247,
+    "activeEmployees": 232,
+    "onLeave": 5,
+    "onProbation": 12,
+    "newThisMonth": 10,
+    "attritionRate": 4.2,
+    "offices": [
+      { "id": "off-01", "city": "Kuala Lumpur", "country": "MY", "countryName": "Malaysia", "flag": "🇲🇾", "employees": 68, "primary": true, "address": "Quill 7, KL Sentral" },
+      { "id": "off-02", "city": "Singapore", "country": "SG", "countryName": "Singapore", "flag": "🇸🇬", "employees": 24, "address": "One Raffles Quay" },
+      { "id": "off-03", "city": "London", "country": "UK", "countryName": "United Kingdom", "flag": "🇬🇧", "employees": 42, "address": "Canary Wharf, E14" },
+      { "id": "off-04", "city": "Berlin", "country": "DE", "countryName": "Germany", "flag": "🇩🇪", "employees": 36, "address": "Potsdamer Platz 10" },
+      { "id": "off-05", "city": "Dublin", "country": "IE", "countryName": "Ireland", "flag": "🇮🇪", "employees": 18, "address": "Grand Canal Dock" },
+      { "id": "off-06", "city": "Ho Chi Minh", "country": "VN", "countryName": "Vietnam", "flag": "🇻🇳", "employees": 15, "address": "District 1, HCMC" },
+      { "id": "off-07", "city": "Taipei", "country": "TW", "countryName": "Taiwan", "flag": "🇹🇼", "employees": 12, "address": "Xinyi District" },
+      { "id": "off-08", "city": "Bangalore", "country": "IN", "countryName": "India", "flag": "🇮🇳", "employees": 32, "address": "Whitefield, BLR" }
+    ],
+    "departments": [
+      { "id": "dept-eng", "name": "Engineering", "headcount": 87, "head": "VP Engineering" },
+      { "id": "dept-design", "name": "Design", "headcount": 22, "head": "Head of Design" },
+      { "id": "dept-product", "name": "Product", "headcount": 18, "head": "CPO" },
+      { "id": "dept-hr", "name": "HR & Legal", "headcount": 15, "head": "CHRO" },
+      { "id": "dept-ops", "name": "Operations", "headcount": 34, "head": "COO" },
+      { "id": "dept-finance", "name": "Finance", "headcount": 24, "head": "CFO" },
+      { "id": "dept-marketing", "name": "Marketing", "headcount": 28, "head": "CMO" },
+      { "id": "dept-compliance", "name": "Compliance", "headcount": 19, "head": "Chief Compliance Officer" }
+    ]
+  },
+
+  "employees": {
+    "emp-001": {
+      "id": "emp-001",
+      "initials": "AC",
+      "name": "Alex Chen",
+      "email": "alex.chen@deriv.com",
+      "role": "Senior Software Engineer",
+      "dept": "Engineering",
+      "location": "Kuala Lumpur, MY",
+      "office": "off-01",
+      "joined": "2026-02-03",
+      "status": "new",
+      "avatar": "linear-gradient(135deg,#6366f1,#a78bfa)",
+      "salary": 128000,
+      "currency": "MYR",
+      "contractType": "Full-time",
+      "probationEnd": "2026-05-03",
+      "manager": "emp-009",
+      "phone": "+60 12-345-6001",
+      "nationality": "Malaysian",
+      "emergencyContact": { "name": "Li Chen", "relation": "Spouse", "phone": "+60 12-345-9001" },
+      "leaveBalance": { "annual": 18, "sick": 14, "used": 0 }
+    },
+    "emp-002": {
+      "id": "emp-002",
+      "initials": "SK",
+      "name": "Sarah Kim",
+      "email": "sarah.kim@deriv.com",
+      "role": "Lead Product Designer",
+      "dept": "Design",
+      "location": "Singapore",
+      "office": "off-02",
+      "joined": "2024-08-12",
+      "status": "active",
+      "avatar": "linear-gradient(135deg,#ec4899,#f472b6)",
+      "salary": 115000,
+      "currency": "SGD",
+      "contractType": "Full-time",
+      "manager": "emp-003",
+      "phone": "+65 9123-4002",
+      "nationality": "South Korean",
+      "workPermit": {
+        "type": "Employment Pass",
+        "number": "WP-SG-2024-00482",
+        "issueDate": "2024-08-01",
+        "expiryDate": "2026-02-23",
+        "status": "expiring",
+        "renewalApplicationDate": null,
+        "renewalStatus": null,
+        "sponsorEntity": "Deriv (SG) Pte Ltd"
+      },
+      "emergencyContact": { "name": "Min-Jun Kim", "relation": "Brother", "phone": "+65 9123-9002" },
+      "leaveBalance": { "annual": 18, "sick": 14, "used": 8 }
+    },
+    "emp-003": {
+      "id": "emp-003",
+      "initials": "MS",
+      "name": "Maria Santos",
+      "email": "maria.santos@deriv.com",
+      "role": "HR Manager",
+      "dept": "HR & Legal",
+      "location": "Kuala Lumpur, MY",
+      "office": "off-01",
+      "joined": "2023-03-20",
+      "status": "active",
+      "avatar": "linear-gradient(135deg,#10b981,#34d399)",
+      "salary": 98000,
+      "currency": "MYR",
+      "contractType": "Full-time",
+      "manager": null,
+      "phone": "+60 12-345-6003",
+      "nationality": "Portuguese",
+      "emergencyContact": { "name": "Carlos Santos", "relation": "Father", "phone": "+351 912-345-003" },
+      "leaveBalance": { "annual": 18, "sick": 14, "used": 4 }
+    },
+    "emp-004": {
+      "id": "emp-004",
+      "initials": "JO",
+      "name": "James O'Brien",
+      "email": "james.obrien@deriv.com",
+      "role": "Finance Lead",
+      "dept": "Operations",
+      "location": "Dublin, IE",
+      "office": "off-05",
+      "joined": "2022-06-01",
+      "status": "active",
+      "avatar": "linear-gradient(135deg,#f59e0b,#fbbf24)",
+      "salary": 105000,
+      "currency": "EUR",
+      "contractType": "Full-time",
+      "manager": null,
+      "phone": "+353 86-123-4004",
+      "nationality": "Irish",
+      "emergencyContact": { "name": "Aoife O'Brien", "relation": "Spouse", "phone": "+353 86-123-9004" },
+      "leaveBalance": { "annual": 20, "sick": 10, "used": 6 }
+    },
+    "emp-005": {
+      "id": "emp-005",
+      "initials": "AP",
+      "name": "Aisha Patel",
+      "email": "aisha.patel@deriv.com",
+      "role": "Legal Counsel",
+      "dept": "HR & Legal",
+      "location": "London, UK",
+      "office": "off-03",
+      "joined": "2023-09-15",
+      "status": "active",
+      "avatar": "linear-gradient(135deg,#8b5cf6,#c4b5fd)",
+      "salary": 115000,
+      "currency": "GBP",
+      "contractType": "Full-time",
+      "manager": null,
+      "phone": "+44 7700-900005",
+      "nationality": "British",
+      "emergencyContact": { "name": "Raj Patel", "relation": "Father", "phone": "+44 7700-900105" },
+      "leaveBalance": { "annual": 28, "sick": 10, "used": 5 }
+    },
+    "emp-006": {
+      "id": "emp-006",
+      "initials": "LN",
+      "name": "Liam Nguyen",
+      "email": "liam.nguyen@deriv.com",
+      "role": "DevOps Engineer",
+      "dept": "Engineering",
+      "location": "Ho Chi Minh, VN",
+      "office": "off-06",
+      "joined": "2024-11-08",
+      "status": "leave",
+      "avatar": "linear-gradient(135deg,#06b6d4,#67e8f9)",
+      "salary": 98000,
+      "currency": "VND",
+      "contractType": "Full-time",
+      "manager": "emp-001",
+      "phone": "+84 90-123-4006",
+      "nationality": "Vietnamese",
+      "emergencyContact": { "name": "Thu Nguyen", "relation": "Mother", "phone": "+84 90-123-9006" },
+      "leaveBalance": { "annual": 18, "sick": 14, "used": 12 }
+    },
+    "emp-007": {
+      "id": "emp-007",
+      "initials": "PS",
+      "name": "Priya Sharma",
+      "email": "priya.sharma@deriv.com",
+      "role": "Product Manager",
+      "dept": "Product",
+      "location": "Bangalore, IN",
+      "office": "off-08",
+      "joined": "2026-02-05",
+      "status": "new",
+      "avatar": "linear-gradient(135deg,#ef4444,#f87171)",
+      "salary": 112000,
+      "currency": "INR",
+      "contractType": "Full-time",
+      "probationEnd": "2026-05-05",
+      "manager": null,
+      "phone": "+91 98765-43007",
+      "nationality": "Indian",
+      "emergencyContact": { "name": "Vikram Sharma", "relation": "Spouse", "phone": "+91 98765-93007" },
+      "leaveBalance": { "annual": 18, "sick": 14, "used": 0 }
+    },
+    "emp-008": {
+      "id": "emp-008",
+      "initials": "TW",
+      "name": "Tom Weber",
+      "email": "tom.weber@deriv.com",
+      "role": "Data Analyst",
+      "dept": "Engineering",
+      "location": "Berlin, DE",
+      "office": "off-04",
+      "joined": "2025-01-10",
+      "status": "active",
+      "avatar": "linear-gradient(135deg,#64748b,#94a3b8)",
+      "salary": 92000,
+      "currency": "EUR",
+      "contractType": "Full-time",
+      "manager": "emp-001",
+      "phone": "+49 170-1234008",
+      "nationality": "German",
+      "emergencyContact": { "name": "Anna Weber", "relation": "Sister", "phone": "+49 170-1234108" },
+      "leaveBalance": { "annual": 28, "sick": 10, "used": 3 }
+    },
+    "emp-009": {
+      "id": "emp-009",
+      "initials": "RH",
+      "name": "Rachel Huang",
+      "email": "rachel.huang@deriv.com",
+      "role": "Operations Manager",
+      "dept": "Operations",
+      "location": "Taipei, TW",
+      "office": "off-07",
+      "joined": "2024-04-22",
+      "status": "active",
+      "avatar": "linear-gradient(135deg,#f97316,#fb923c)",
+      "salary": 105000,
+      "currency": "TWD",
+      "contractType": "Full-time",
+      "manager": null,
+      "phone": "+886 912-345-009",
+      "nationality": "Taiwanese",
+      "emergencyContact": { "name": "Wei Huang", "relation": "Mother", "phone": "+886 912-345-109" },
+      "leaveBalance": { "annual": 18, "sick": 14, "used": 7 }
+    }
+  },
+
+  "contracts": {
+    "ct-001": {
+      "id": "ct-001",
+      "employeeId": "emp-001",
+      "employeeName": "Alex Chen",
+      "type": "Employment",
+      "status": "pending",
+      "createdDate": "2026-02-07",
+      "effectiveDate": "2026-02-10",
+      "expiryDate": null,
+      "value": 128000,
+      "currency": "MYR",
+      "jurisdiction": "Malaysia",
+      "notes": "References outdated EPF contribution rates (pre-2026). Needs correction before signing.",
+      "version": 1,
+      "lastModifiedBy": "usr-001",
+      "lastModified": "2026-02-07T14:30:00+08:00"
+    },
+    "ct-002": {
+      "id": "ct-002",
+      "employeeId": "emp-003",
+      "employeeName": "Maria Santos",
+      "type": "NDA",
+      "status": "signed",
+      "createdDate": "2026-02-05",
+      "effectiveDate": "2026-02-05",
+      "expiryDate": null,
+      "value": null,
+      "currency": "MYR",
+      "jurisdiction": "Malaysia",
+      "notes": null,
+      "version": 1,
+      "lastModifiedBy": "usr-001",
+      "lastModified": "2026-02-05T09:00:00+08:00"
+    },
+    "ct-003": {
+      "id": "ct-003",
+      "employeeId": "emp-004",
+      "employeeName": "James O'Brien",
+      "type": "Equity Grant",
+      "status": "signed",
+      "createdDate": "2026-02-03",
+      "effectiveDate": "2026-03-01",
+      "expiryDate": "2030-02-28",
+      "value": 45000,
+      "currency": "EUR",
+      "jurisdiction": "Ireland",
+      "notes": "Vesting over 4 years with 1-year cliff.",
+      "version": 1,
+      "lastModifiedBy": "usr-001",
+      "lastModified": "2026-02-03T11:15:00+08:00"
+    },
+    "ct-004": {
+      "id": "ct-004",
+      "employeeId": "emp-005",
+      "employeeName": "Aisha Patel",
+      "type": "Amendment",
+      "status": "review",
+      "createdDate": "2026-02-01",
+      "effectiveDate": "2026-03-01",
+      "expiryDate": null,
+      "value": 115000,
+      "currency": "GBP",
+      "jurisdiction": "United Kingdom",
+      "notes": "Salary adjustment and updated role title.",
+      "version": 2,
+      "lastModifiedBy": "usr-001",
+      "lastModified": "2026-02-01T16:45:00+08:00"
+    },
+    "ct-005": {
+      "id": "ct-005",
+      "employeeId": "emp-006",
+      "employeeName": "Liam Nguyen",
+      "type": "Employment",
+      "status": "expired",
+      "createdDate": "2024-11-08",
+      "effectiveDate": "2024-11-08",
+      "expiryDate": "2026-01-28",
+      "value": 98000,
+      "currency": "VND",
+      "jurisdiction": "Vietnam",
+      "notes": "Contract expired. Renewal pending employee return from leave.",
+      "version": 1,
+      "lastModifiedBy": "usr-001",
+      "lastModified": "2026-01-28T09:00:00+08:00"
+    },
+    "ct-006": {
+      "id": "ct-006",
+      "employeeId": "emp-007",
+      "employeeName": "Priya Sharma",
+      "type": "Employment",
+      "status": "pending",
+      "createdDate": "2026-02-08",
+      "effectiveDate": "2026-02-10",
+      "expiryDate": null,
+      "value": 112000,
+      "currency": "INR",
+      "jurisdiction": "India",
+      "notes": "New hire onboarding contract.",
+      "version": 1,
+      "lastModifiedBy": "usr-001",
+      "lastModified": "2026-02-08T08:00:00+08:00"
+    },
+    "ct-007": {
+      "id": "ct-007",
+      "employeeId": "emp-009",
+      "employeeName": "Rachel Huang",
+      "type": "Employment",
+      "status": "signed",
+      "createdDate": "2024-04-15",
+      "effectiveDate": "2024-04-22",
+      "expiryDate": null,
+      "value": 105000,
+      "currency": "TWD",
+      "jurisdiction": "Taiwan",
+      "notes": null,
+      "version": 1,
+      "lastModifiedBy": "usr-001",
+      "lastModified": "2024-04-15T10:00:00+08:00"
+    }
+  },
+
+  "alerts": [
+    {
+      "id": "alert-visa-sarah",
+      "type": "critical",
+      "category": "compliance",
+      "icon": "🛂",
+      "title": "Visa Expiring — Sarah Kim",
+      "summary": "Work permit expires in 14 days. Immediate renewal required to avoid employment disruption.",
+      "employee": "Sarah Kim",
+      "employeeId": "emp-002",
+      "role": "Lead Product Designer",
+      "department": "Design",
+      "location": "Singapore",
+      "deadline": "2026-02-23",
+      "daysLeft": 14,
+      "deepLink": "compliance.html?alert=visa-sarah",
+      "action": "Initiate Renewal",
+      "dismissed": false,
+      "createdAt": "2026-02-08T06:00:00+08:00"
+    },
+    {
+      "id": "alert-contract-alex",
+      "type": "warning",
+      "category": "contracts",
+      "icon": "📄",
+      "title": "Contract Clause Error — Alex Chen",
+      "summary": "Employment agreement references outdated EPF contribution rates (pre-2026). Must be corrected before signing.",
+      "employee": "Alex Chen",
+      "employeeId": "emp-001",
+      "role": "Senior Software Engineer",
+      "department": "Engineering",
+      "location": "Kuala Lumpur, MY",
+      "deadline": "2026-02-15",
+      "daysLeft": 6,
+      "deepLink": "contracts.html?alert=contract-alex",
+      "action": "Review Contract",
+      "dismissed": false,
+      "createdAt": "2026-02-07T14:30:00+08:00"
+    },
+    {
+      "id": "alert-compliance-eu",
+      "type": "warning",
+      "category": "compliance",
+      "icon": "⚠️",
+      "title": "Safety Training Overdue — EU Team",
+      "summary": "3 of 12 EU employees have not completed mandatory workplace safety training. Regulatory deadline Feb 20.",
+      "employee": "EU Team",
+      "employeeId": null,
+      "role": "Multiple roles",
+      "department": "Operations",
+      "location": "Berlin, DE",
+      "deadline": "2026-02-20",
+      "daysLeft": 11,
+      "deepLink": "compliance.html?alert=training-eu",
+      "action": "Send Reminder",
+      "dismissed": false,
+      "createdAt": "2026-02-06T09:00:00+08:00"
+    }
+  ],
+
+  "morningBriefing": {
+    "date": "2026-02-08",
+    "greeting": "Good morning, Ahmad",
+    "summary": "You have 3 urgent items: 1 visa expiry approaching (Sarah Kim, 14 days), 1 contract clause error needing review (Alex Chen), and 3 EU employees overdue on safety training.",
+    "stats": {
+      "pendingContracts": 2,
+      "expiringVisas": 1,
+      "complianceAlerts": 2,
+      "newHiresThisWeek": 2,
+      "leaveRequestsPending": 3
+    },
+    "aiInsight": "Based on current hiring velocity and visa processing times, I recommend initiating Sarah Kim's renewal today to avoid a 2-week processing gap.",
+    "generatedAt": "2026-02-08T06:00:00+08:00"
+  },
+
+  "dashboardKPIs": {
+    "totalEmployees": { "value": 247, "change": 4.2, "period": "vs last month" },
+    "activeContracts": { "value": 189, "change": 2.1, "period": "vs last month" },
+    "complianceScore": { "value": 94, "change": -1.5, "period": "vs last month" },
+    "timeToHire": { "value": 23, "unit": "days", "change": -3.0, "period": "vs last quarter" },
+    "turnoverRate": { "value": 4.2, "unit": "%", "change": -0.8, "period": "vs last quarter" },
+    "openPositions": { "value": 12, "change": 3, "period": "new this week" }
+  },
+
+  "compliance": {
+    "overallScore": 94,
+    "scoreBreakdown": {
+      "visaWork": { "label": "Visa & Work Permits", "score": 88, "total": 15, "compliant": 13, "issues": 2 },
+      "contracts": { "label": "Employment Contracts", "score": 96, "total": 189, "compliant": 182, "issues": 7 },
+      "training": { "label": "Mandatory Training", "score": 91, "total": 247, "compliant": 225, "issues": 22 },
+      "dataPrivacy": { "label": "Data Privacy (GDPR/PDPA)", "score": 98, "total": 78, "compliant": 76, "issues": 2 },
+      "healthSafety": { "label": "Health & Safety", "score": 95, "total": 247, "compliant": 235, "issues": 12 }
+    },
+    "visaQuota": {
+      "currentQuota": 12,
+      "usedQuota": 10,
+      "availableQuota": 2,
+      "q3HiringTarget": 8,
+      "predictedShortfall": 6,
+      "daysUntilExhausted": 45,
+      "recommendation": "Apply for 5 more visa slots now to meet Q3 hiring targets.",
+      "predictionModel": "Linear projection based on current hiring velocity (2.3 hires/month) against remaining quota (2 slots)."
+    },
+    "visaTimeline": {
+      "employeeId": "emp-002",
+      "employeeName": "Sarah Kim",
+      "permitType": "Employment Pass",
+      "permitNumber": "WP-SG-2024-00482",
+      "milestones": [
+        { "id": "vt-1", "date": "2024-06-15", "label": "Application Submitted", "status": "completed", "icon": "📋" },
+        { "id": "vt-2", "date": "2024-07-20", "label": "MOM Interview", "status": "completed", "icon": "🏛️" },
+        { "id": "vt-3", "date": "2024-08-01", "label": "Pass Issued", "status": "completed", "icon": "✅" },
+        { "id": "vt-4", "date": "2024-08-12", "label": "Employment Started", "status": "completed", "icon": "🚀" },
+        { "id": "vt-5", "date": "2025-12-23", "label": "Renewal Window Opens", "status": "completed", "icon": "📅" },
+        { "id": "vt-6", "date": "2026-02-08", "label": "Today — 15 days left", "status": "current", "icon": "⏰" },
+        { "id": "vt-7", "date": "2026-02-23", "label": "Pass Expires", "status": "upcoming", "icon": "🛂" }
+      ],
+      "progressPercent": 75,
+      "renewalActions": [
+        { "label": "Start Renewal Application", "href": "contract-generator.html?employee=emp-002&type=renewal", "primary": true },
+        { "label": "View Full History", "href": "compliance.html?employee=emp-002", "primary": false }
+      ]
+    },
+    "trainingTracker": [
+      { "id": "tr-001", "title": "Workplace Safety (EU Mandatory)", "jurisdiction": "EU", "deadline": "2026-02-20", "totalRequired": 12, "completed": 9, "overdue": 3, "overdueEmployees": ["Tom Weber", "Liam Nguyen", "Hans Mueller"] },
+      { "id": "tr-002", "title": "GDPR Data Handling", "jurisdiction": "EU", "deadline": "2026-03-31", "totalRequired": 78, "completed": 76, "overdue": 2, "overdueEmployees": ["New hire pending", "New hire pending"] },
+      { "id": "tr-003", "title": "Anti-Money Laundering (AML)", "jurisdiction": "Global", "deadline": "2026-06-30", "totalRequired": 247, "completed": 210, "overdue": 0, "overdueEmployees": [] },
+      { "id": "tr-004", "title": "PDPA Awareness (Malaysia)", "jurisdiction": "MY", "deadline": "2026-04-15", "totalRequired": 68, "completed": 65, "overdue": 0, "overdueEmployees": [] }
+    ],
+    "hiringPipeline": {
+      "q3Target": 8,
+      "currentOffers": 2,
+      "interviewStage": 5,
+      "applicationStage": 14,
+      "visaSlotsNeeded": 6,
+      "estimatedProcessingDays": 30
+    }
+  },
+
+  "contractGenerator": {
+    "jurisdictions": [
+      { "code": "MY", "name": "Malaysia", "flag": "🇲🇾", "currency": "MYR", "legalFramework": "Employment Act 1955" },
+      { "code": "UK", "name": "United Kingdom", "flag": "🇬🇧", "currency": "GBP", "legalFramework": "Employment Rights Act 1996" },
+      { "code": "SG", "name": "Singapore", "flag": "🇸🇬", "currency": "SGD", "legalFramework": "Employment Act (Cap. 91)" },
+      { "code": "DE", "name": "Germany", "flag": "🇩🇪", "currency": "EUR", "legalFramework": "Bürgerliches Gesetzbuch (BGB)" }
+    ],
+    "contractTypes": [
+      { "id": "employment", "label": "Employment Agreement", "icon": "📋" },
+      { "id": "nda", "label": "Non-Disclosure Agreement", "icon": "🔒" },
+      { "id": "amendment", "label": "Contract Amendment", "icon": "✏️" },
+      { "id": "renewal", "label": "Renewal / Extension", "icon": "🔄" }
+    ],
+    "roleTemplates": [
+      { "role": "Software Engineer", "defaultSalary": { "MY": 96000, "UK": 65000, "SG": 84000, "DE": 72000 } },
+      { "role": "Senior Software Engineer", "defaultSalary": { "MY": 128000, "UK": 85000, "SG": 110000, "DE": 95000 } },
+      { "role": "Product Designer", "defaultSalary": { "MY": 84000, "UK": 55000, "SG": 72000, "DE": 62000 } },
+      { "role": "Lead Product Designer", "defaultSalary": { "MY": 115000, "UK": 75000, "SG": 95000, "DE": 82000 } },
+      { "role": "Product Manager", "defaultSalary": { "MY": 112000, "UK": 78000, "SG": 98000, "DE": 85000 } },
+      { "role": "Data Analyst", "defaultSalary": { "MY": 72000, "UK": 48000, "SG": 66000, "DE": 58000 } },
+      { "role": "DevOps Engineer", "defaultSalary": { "MY": 98000, "UK": 68000, "SG": 88000, "DE": 76000 } },
+      { "role": "HR Manager", "defaultSalary": { "MY": 98000, "UK": 62000, "SG": 82000, "DE": 70000 } },
+      { "role": "Legal Counsel", "defaultSalary": { "MY": 115000, "UK": 90000, "SG": 105000, "DE": 88000 } },
+      { "role": "Operations Manager", "defaultSalary": { "MY": 105000, "UK": 65000, "SG": 88000, "DE": 75000 } }
+    ],
+    "generationSteps": [
+      { "step": 1, "label": "Analyzing jurisdiction requirements", "duration": 800 },
+      { "step": 2, "label": "Generating employment terms", "duration": 1200 },
+      { "step": 3, "label": "Applying local compliance clauses", "duration": 1000 },
+      { "step": 4, "label": "Cross-referencing labor law database", "duration": 900 },
+      { "step": 5, "label": "Finalizing contract document", "duration": 600 }
+    ],
+    "clauseTemplates": {
+      "Malaysia": {
+        "retirement": "Employee contributions to the Employees Provident Fund (EPF) shall be deducted at the statutory rate of 11% of monthly wages, with the Employer contributing 12%.",
+        "social": "The Employee shall be registered under the Social Security Organisation (SOCSO) and the Employment Insurance System (EIS) as required by Malaysian law.",
+        "notice": "Either party may terminate this agreement by providing written notice as follows: 1 month (service < 2 years), 2 months (2–5 years), 3 months (> 5 years).",
+        "leave": "The Employee is entitled to 18 days of paid annual leave per calendar year, in accordance with the Employment Act 1955.",
+        "probation": "The Employee shall serve a probationary period of 3 months, during which either party may terminate with 1 week's written notice.",
+        "workHours": "Standard working hours are 8 hours per day, 40 hours per week, Monday to Friday.",
+        "governing": "This agreement shall be governed by and construed in accordance with the laws of Malaysia.",
+        "overtime": "Non-exempt employees are entitled to overtime pay: 1.5x for weekdays, 2x for rest days, 3x for public holidays.",
+        "termination": "Employer may terminate for cause including misconduct, habitual absence, or criminal conviction, in accordance with Section 14 of the Employment Act 1955."
+      },
+      "United Kingdom": {
+        "retirement": "The Employer shall auto-enrol the Employee into a qualifying workplace pension scheme. Employer contribution: 3% minimum. Employee contribution: 5% minimum, as per The Pensions Regulator requirements.",
+        "social": "The Employee is subject to National Insurance Contributions (NICs) as determined by HMRC. The Employer shall deduct and remit Class 1 NICs from the Employee's salary.",
+        "notice": "Either party may terminate this agreement by providing written notice as follows: 1 week per year of service (minimum 1 week, maximum 12 weeks), in accordance with the Employment Rights Act 1996.",
+        "leave": "The Employee is entitled to 28 days of paid annual leave per calendar year (inclusive of 8 public holidays), in accordance with the Working Time Regulations 1998.",
+        "probation": "The Employee shall serve a probationary period of 6 months, during which either party may terminate with 1 month's written notice.",
+        "workHours": "Standard working hours are 37.5 hours per week, Monday to Friday. The Employee opts out of the 48-hour weekly limit under the Working Time Regulations 1998.",
+        "governing": "This agreement shall be governed by and construed in accordance with the laws of England and Wales.",
+        "overtime": "Overtime is not guaranteed. Where required, it shall be compensated through time off in lieu (TOIL) or at the Manager's discretion.",
+        "termination": "Employer may terminate for cause following a fair disciplinary procedure in accordance with ACAS Code of Practice."
+      },
+      "Singapore": {
+        "retirement": "The Employer shall make monthly contributions to the Central Provident Fund (CPF) at the prevailing statutory rates: Employer 17%, Employee 20% (for employees aged ≤55).",
+        "social": "CPF contributions serve as the primary social security mechanism. The Employer shall comply with all CPF Act requirements.",
+        "notice": "Either party may terminate this agreement by providing 1 month's written notice, or salary in lieu thereof, in accordance with the Employment Act (Cap. 91).",
+        "leave": "The Employee is entitled to 14 days of paid annual leave per calendar year, increasing by 1 day per year of service up to 18 days.",
+        "probation": "The Employee shall serve a probationary period of 3 months, during which either party may terminate with 2 weeks' written notice.",
+        "workHours": "Standard working hours are 44 hours per week (9 hours/day for 5-day week), in accordance with the Employment Act.",
+        "governing": "This agreement shall be governed by and construed in accordance with the laws of the Republic of Singapore.",
+        "overtime": "Overtime pay is applicable under Part IV of the Employment Act for eligible employees at 1.5x the hourly basic rate.",
+        "termination": "Employer may terminate for cause including wilful breach of contract or misconduct, with or without notice per Section 14 of the Employment Act."
+      },
+      "Germany": {
+        "retirement": "The Employee is enrolled in the statutory pension insurance scheme (Gesetzliche Rentenversicherung). Contributions are shared equally between Employer and Employee at the prevailing rate (currently 18.6%).",
+        "social": "The Employee is subject to German social security contributions including health insurance, nursing care insurance, unemployment insurance, and accident insurance, as prescribed by the Sozialgesetzbuch (SGB).",
+        "notice": "Either party may terminate this agreement by providing 4 weeks' notice to the 15th or end of a calendar month. Statutory notice periods increase with length of service per §622 BGB.",
+        "leave": "The Employee is entitled to a minimum of 20 days paid annual leave (based on a 5-day week) per the Federal Leave Act (Bundesurlaubsgesetz). Company policy grants 28 days.",
+        "probation": "The Employee shall serve a probationary period of 6 months, during which either party may terminate with 2 weeks' notice per §622(3) BGB.",
+        "workHours": "Standard working hours are 40 hours per week, Monday to Friday, in accordance with the Working Time Act (Arbeitszeitgesetz).",
+        "governing": "This agreement shall be governed by and construed in accordance with the laws of the Federal Republic of Germany.",
+        "overtime": "Overtime shall be compensated through time off in lieu. Any overtime exceeding 10 hours/day is prohibited under the Arbeitszeitgesetz.",
+        "termination": "Termination by the Employer requires social justification per the Kündigungsschutzgesetz (KSchG) for employees with >6 months service in companies with >10 employees."
+      }
+    },
+    "signatureBlock": {
+      "companySignatory": "Maria Santos",
+      "companyTitle": "HR Manager, Deriv Group",
+      "witnessName": "Aisha Patel",
+      "witnessTitle": "Legal Counsel"
+    }
+  },
+
+  "chatAssistant": {
+    "botName": "Deriv HR Assistant",
+    "botAvatar": "🤖",
+    "systemPrompt": "You are Deriv's AI HR Assistant. Answer questions accurately based on company policy and the Malaysian Employment Act 1955. Be concise, professional, and helpful. If unsure, recommend contacting HR directly.",
+    "welcomeMessage": "Hi! I'm your HR assistant. Ask me about leave policies, contracts, compliance, or anything HR-related.",
+    "pageContext": {
+      "dashboard": {
+        "context": "User is on the Dashboard viewing overall HR metrics, alerts, and morning briefing.",
+        "suggestedQuestions": [
+          "What are today's urgent items?",
+          "How many new hires this month?",
+          "What's the current compliance score?"
+        ]
+      },
+      "people": {
+        "context": "User is on the People page viewing the employee directory and profiles.",
+        "suggestedQuestions": [
+          "How many employees are on leave?",
+          "What's the headcount by department?",
+          "How do I update an employee record?"
+        ]
+      },
+      "calendar": {
+        "context": "User is on the Calendar page viewing schedules, events, and time-off requests.",
+        "suggestedQuestions": [
+          "Who is on leave this week?",
+          "What public holidays are coming up?",
+          "How do I request time off?"
+        ]
+      },
+      "contracts": {
+        "context": "User is on the Contracts page managing employment agreements.",
+        "suggestedQuestions": [
+          "What is the notice period for Alex Chen?",
+          "How many contracts are pending signature?",
+          "What's the difference between NDA and Employment contracts?"
+        ]
+      },
+      "contract-generator": {
+        "context": "User is generating a new contract using the AI contract generator.",
+        "suggestedQuestions": [
+          "What clauses change for UK contracts?",
+          "What's the standard probation period?",
+          "Can I customize the contract template?"
+        ]
+      },
+      "compliance": {
+        "context": "User is on the Compliance Monitor tracking visa status, training, and regulatory items.",
+        "suggestedQuestions": [
+          "When does Sarah Kim's visa expire?",
+          "How much visa quota is left?",
+          "Which EU employees need safety training?"
+        ]
+      },
+      "analytics": {
+        "context": "User is on the Analytics page viewing workforce metrics and trends.",
+        "suggestedQuestions": [
+          "What's the current turnover rate?",
+          "Which department has the most open positions?",
+          "How does our time-to-hire compare to industry?"
+        ]
+      },
+      "settings": {
+        "context": "User is on the Settings page managing account and system preferences.",
+        "suggestedQuestions": [
+          "How do I change notification preferences?",
+          "Can I enable two-factor authentication?",
+          "How do I export company data?"
+        ]
+      }
+    },
+    "knowledgeBase": {
+      "leavePolicy": "DERIV GROUP — LEAVE POLICY SUMMARY (2026)\n\n1. ANNUAL LEAVE: 18 days per year (pro-rated for new joiners). Carry forward max 5 days.\n2. SICK LEAVE: 14 days paid. Hospitalization leave: 60 days. Medical certificate required for >2 consecutive days.\n3. MATERNITY: 98 days (Malaysia). Varies by jurisdiction — UK: 52 weeks, Singapore: 16 weeks.\n4. PATERNITY: 7 days (Malaysia). UK: 2 weeks. Singapore: 2 weeks (government-paid).\n5. COMPASSIONATE: 3 days for immediate family bereavement.\n6. MARRIAGE: 3 days (one-time).\n7. PUBLIC HOLIDAYS: Follow local jurisdiction calendar. Malaysia: 11 gazetted days.\n8. NOTICE PERIOD: 1 month for <2 years service. 2 months for 2-5 years. 3 months for >5 years.\n9. PROBATION: 3 months for all new hires. Notice period during probation: 1 week.\n10. OVERTIME: Non-exempt employees only. 1.5x for weekdays, 2x for rest days, 3x for public holidays.\n11. REMOTE WORK: 2 days/week hybrid for all eligible roles. Full remote requires VP approval.\n12. EPF: Employee 11%, Employer 12% (Malaysia). UK: National Insurance contributions apply.\n13. SOCSO: Employer contribution as per Employment Injury Scheme & Invalidity Scheme (Malaysia).",
+      "faqs": [
+        {
+          "id": "faq-001",
+          "question": "How many annual leave days do I get?",
+          "answer": "All employees are entitled to 18 days of paid annual leave per year. New joiners receive pro-rated leave. You can carry forward up to 5 unused days to the next year.",
+          "category": "leave"
+        },
+        {
+          "id": "faq-002",
+          "question": "What is the notice period?",
+          "answer": "Notice periods depend on length of service: 1 month for less than 2 years, 2 months for 2-5 years, and 3 months for over 5 years. During probation, the notice period is 1 week.",
+          "category": "contracts"
+        },
+        {
+          "id": "faq-003",
+          "question": "How does remote work policy work?",
+          "answer": "All eligible roles can work remotely 2 days per week under our hybrid policy. Full remote arrangements require VP-level approval and a formal remote work agreement.",
+          "category": "policy"
+        },
+        {
+          "id": "faq-004",
+          "question": "What is the EPF contribution rate?",
+          "answer": "In Malaysia, employees contribute 11% and employers contribute 12% of monthly wages to the Employees Provident Fund (EPF). For UK-based employees, National Insurance contributions apply instead.",
+          "category": "benefits"
+        },
+        {
+          "id": "faq-005",
+          "question": "How long is probation?",
+          "answer": "Standard probation is 3 months for all new hires in Malaysia and Singapore. UK and Germany have 6-month probation periods. During probation, either party can terminate with shortened notice.",
+          "category": "contracts"
+        },
+        {
+          "id": "faq-006",
+          "question": "How do I apply for maternity leave?",
+          "answer": "Notify your HR Manager and submit a medical certificate at least 4 weeks before expected delivery. Malaysia provides 98 days paid maternity leave. UK: up to 52 weeks (39 weeks paid). Singapore: 16 weeks (government-paid for qualifying mothers).",
+          "category": "leave"
+        },
+        {
+          "id": "faq-007",
+          "question": "What happens when a visa expires?",
+          "answer": "Visa renewals should be initiated at least 60 days before expiry. If a work permit expires without renewal, the employee cannot legally continue working. Contact HR immediately if your visa is expiring within 30 days.",
+          "category": "compliance"
+        },
+        {
+          "id": "faq-008",
+          "question": "What overtime rates apply?",
+          "answer": "For non-exempt employees in Malaysia: 1.5x hourly rate for weekdays, 2x for rest days, and 3x for public holidays. Overtime must be pre-approved by your manager.",
+          "category": "compensation"
+        },
+        {
+          "id": "faq-009",
+          "question": "How do I generate a contract?",
+          "answer": "Go to Contracts → Generate New Contract. Select the contract type, jurisdiction, role, and salary. The AI will generate jurisdiction-compliant clauses automatically. Review, then print or save as PDF.",
+          "category": "contracts"
+        },
+        {
+          "id": "faq-010",
+          "question": "What is the company's GDPR policy?",
+          "answer": "All EU employee data is processed under GDPR. For Malaysian operations, we comply with PDPA 2010. Data is encrypted at rest, access is role-based, and employees can request data export or deletion through Settings → Privacy.",
+          "category": "compliance"
+        }
+      ]
+    }
+  },
+
+  "notifications": [
+    {
+      "id": "notif-001",
+      "type": "critical",
+      "title": "Visa expiry in 14 days",
+      "body": "Sarah Kim's Employment Pass expires Feb 23. Initiate renewal now.",
+      "href": "compliance.html?alert=visa-sarah",
+      "read": false,
+      "createdAt": "2026-02-08T06:00:00+08:00"
+    },
+    {
+      "id": "notif-002",
+      "type": "warning",
+      "title": "Contract needs review",
+      "body": "Alex Chen's employment agreement has outdated EPF rates.",
+      "href": "contracts.html?alert=contract-alex",
+      "read": false,
+      "createdAt": "2026-02-07T14:30:00+08:00"
+    },
+    {
+      "id": "notif-003",
+      "type": "info",
+      "title": "2 new hires this week",
+      "body": "Alex Chen and Priya Sharma joined. Onboarding tasks pending.",
+      "href": "people.html",
+      "read": false,
+      "createdAt": "2026-02-07T09:00:00+08:00"
+    },
+    {
+      "id": "notif-004",
+      "type": "warning",
+      "title": "Training deadline approaching",
+      "body": "3 EU employees overdue on workplace safety training. Due Feb 20.",
+      "href": "compliance.html?alert=training-eu",
+      "read": true,
+      "createdAt": "2026-02-06T09:00:00+08:00"
+    }
+  ],
+
+  "calendarEvents": [
+    { "id": "evt-001", "title": "Sarah Kim — Visa Review Meeting", "date": "2026-02-10", "time": "10:00", "duration": 60, "type": "meeting", "attendees": ["Sarah Kim", "Ahmad Ramly", "Maria Santos"] },
+    { "id": "evt-002", "title": "Alex Chen — Onboarding Day 5", "date": "2026-02-10", "time": "09:00", "duration": 480, "type": "onboarding", "attendees": ["Alex Chen"] },
+    { "id": "evt-003", "title": "Priya Sharma — Onboarding Day 3", "date": "2026-02-10", "time": "09:00", "duration": 480, "type": "onboarding", "attendees": ["Priya Sharma"] },
+    { "id": "evt-004", "title": "EU Safety Training Deadline", "date": "2026-02-20", "time": null, "duration": null, "type": "deadline", "attendees": [] },
+    { "id": "evt-005", "title": "Q1 Compliance Review", "date": "2026-02-28", "time": "14:00", "duration": 120, "type": "meeting", "attendees": ["Ahmad Ramly", "Maria Santos", "Aisha Patel"] },
+    { "id": "evt-006", "title": "Thaipusam — Public Holiday (MY)", "date": "2026-02-11", "time": null, "duration": null, "type": "holiday", "attendees": [] },
+    { "id": "evt-007", "title": "Liam Nguyen — Return from Leave", "date": "2026-02-17", "time": null, "duration": null, "type": "leave-return", "attendees": ["Liam Nguyen"] }
+  ],
+
+  "activityLog": [
+    { "id": "log-001", "action": "Contract generated", "description": "Employment agreement for Alex Chen (MY jurisdiction)", "user": "Ahmad Ramly", "timestamp": "2026-02-07T14:30:00+08:00", "page": "contract-generator" },
+    { "id": "log-002", "action": "Alert triggered", "description": "AI detected outdated EPF rates in contract ct-001", "user": "System AI", "timestamp": "2026-02-07T14:35:00+08:00", "page": "contracts" },
+    { "id": "log-003", "action": "Employee added", "description": "Priya Sharma onboarded — Product Manager, Bangalore", "user": "Maria Santos", "timestamp": "2026-02-05T10:00:00+08:00", "page": "people" },
+    { "id": "log-004", "action": "Compliance scan", "description": "Weekly compliance scan completed. Score: 94/100", "user": "System AI", "timestamp": "2026-02-05T06:00:00+08:00", "page": "compliance" },
+    { "id": "log-005", "action": "Training reminder sent", "description": "Safety training reminder sent to 3 EU employees", "user": "System AI", "timestamp": "2026-02-04T09:00:00+08:00", "page": "compliance" }
+  ]
+}

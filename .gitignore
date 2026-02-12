@@ -1,0 +1,10 @@
+# Exclude node_modules and other build artifacts
+**/node_modules
+**/.next
+**/dist
+**/.DS_Store
+**/.env
+**/.env.local
+**/obj
+**/bin
+**/.vscode

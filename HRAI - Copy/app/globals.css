@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #08080c;
+  --color-foreground: #f0f0f5;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@import "./styles/deriv.css";
+@import "./styles/calendar.css";
+@import "./styles/contracts.css";
+@import "./styles/compliance.css";
+@import "./styles/analytics.css";
+@import "./styles/settings.css";
+@import "./styles/contract-generator.css";
+@import "./styles/landing.css";
+@import "./styles/chat-widget.css";
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #08080c;
+}
