@@ -415,16 +415,29 @@
 
 /* Print styles */
 @media print {
-  .deriv-app body * { visibility: hidden; }
-  .deriv-app .cg-paper, .deriv-app .cg-paper * { visibility: visible; }
-  .deriv-app .cg-paper {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    box-shadow: none;
-    border-radius: 0;
-    padding: 40px;
+  @page { size: A4; margin: 20mm 18mm; }
+  body { background: #fff !important; }
+  .sidebar, .sidebar-overlay, .topbar, .chat-widget,
+  .cg-header, .cg-form-panel, .cg-preview-toolbar { display: none !important; }
+  .deriv-app { display: block !important; }
+  .main { margin: 0 !important; padding: 0 !important; }
+  .page-content { padding: 0 !important; }
+  .cg-split { display: block !important; }
+  .cg-preview-panel {
+    border: none !important;
+    background: transparent !important;
+    min-height: auto !important;
+  }
+  .cg-paper {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
 
