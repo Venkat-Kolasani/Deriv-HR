@@ -101,7 +101,7 @@ export interface CompatibilityScore {
  * const result = parseFlowiseStructuredOutput<CompatibilityScore>(response);
  * console.log(result.score, result["Key Strength"], result.Concerns);
  */
-export function parseFlowiseStructuredOutput<T = CompatibilityScore>(response: FlowiseResponse | any): T {
+export function parseFlowiseStructuredOutput<T = any>(response: FlowiseResponse | any): T {
     let textToParse = "";
 
     // Handle different response formats

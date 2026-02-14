@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MOCK_CANDIDATES, type CandidateProfile } from "@/app/lib/mock-candidates";
 import { askFlowise, CHATFLOW_IDS, parseJsonFromLLM, parseFlowiseStructuredOutput, type CompatibilityScore } from "@/app/lib/flowise";
+import { generateMockFlowiseResponse, getMockScorecardData } from "@/app/lib/mock-flowise-response";
 
 /* ── Job Description Constant ── */
 const JOB_DESCRIPTION = {
@@ -119,6 +121,7 @@ function ScoreRing({ score }: { score: number }) {
 
 /* ── Main Component ── */
 export default function FeedbackClient() {
+    const router = useRouter();
     const [selectedCandidate, setSelectedCandidate] = useState<CandidateProfile>(MOCK_CANDIDATES[0]);
     const [resumeReview, setResumeReview] = useState(MOCK_CANDIDATES[0].resumeReview);
     const [telephonic, setTelephonic] = useState(MOCK_CANDIDATES[0].telephonicInterview);
@@ -193,24 +196,25 @@ export default function FeedbackClient() {
             const prompt = JSON.stringify(candidateData) + JSON.stringify(JOB_DESCRIPTION);
 
             // Call Flowise prediction API
-            const response = await fetch('http://localhost:3000/api/v1/prediction/0458e1da-1714-45fd-81a3-577d5d7f61c3', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    question: prompt,
-                }),
-            });
+            // const response = await fetch('http://localhost:3000/api/v1/prediction/0458e1da-1714-45fd-81a3-577d5d7f61c3', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         question: prompt,
+            //     }),
+            // });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            // if (!response.ok) {
+            //     throw new Error(`HTTP error! status: ${response.status}`);
+            // }
 
-            const result = await response.json();
+            // const result = await response.json();
 
             // Parse the new Flowise response format
-            const compatibilityData = parseFlowiseStructuredOutput<CompatibilityScore>(result);
+            //const compatibilityData = parseFlowiseStructuredOutput<CompatibilityScore>(result);
+            const compatibilityData = getMockScorecardData();
 
             // Transform CompatibilityScore into ScorecardData
             const transformedScorecard: ScorecardData = {
@@ -269,7 +273,8 @@ export default function FeedbackClient() {
             scorecard,
         };
         localStorage.setItem("hiring-feedback-data", JSON.stringify(data));
-        window.location.href = "/hiring/compensation";
+        // Use Next.js router for proper client-side navigation
+        router.push("/hiring/compensation");
     }
 
     const candidateGradient = (() => {

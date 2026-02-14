@@ -1,0 +1,42 @@
+{
+  "description": "Example of parsed Flowise response transformed into ScorecardData format",
+  "input": {
+    "raw_json": "{\n  \"score\": 8,\n  \"Key Strength\": [...],\n  \"Concerns\": [...],\n  \"Technical Skills\": 5,\n  \"Communication\": 95,\n  \"Leadership\": 90,\n  \"Culture Fit\": 85,\n  \"Bias Detection\": [...]\n}"
+  },
+  "output": {
+    "overall_score": 0.8,
+    "competencies": {
+      "Technical Skills": 0.5,
+      "Communication": 9.5,
+      "Leadership": 9.0,
+      "Culture Fit": 8.5
+    },
+    "strengths": [
+      "Excellent communication skills, which are crucial for any marketing role.",
+      "Strong analytical and problem-solving abilities demonstrated in her engineering career, which could transfer to market research and strategy analysis.",
+      "Proactive and growth-minded, showing a commitment to continuous learning.",
+      "Demonstrated collaborative spirit and leadership potential."
+    ],
+    "concerns": [
+      "No direct experience in digital marketing, content creation, or digital marketing strategy.",
+      "Academic background is in Computer Science, not Marketing or Communications as required.",
+      "Lack of proficiency in specific digital marketing software like Adobe Creative Cloud (Photoshop, InDesign, Illustrator).",
+      "Significant mismatch in salary expectations ($115,000-130,000) versus the job's offered range ($70,000-$90,000).",
+      "Her primary career focus and interest are in financial technology, not the clean energy or sustainability industry.",
+      "Overqualified in terms of seniority and technical leadership for a specialist digital marketing role."
+    ],
+    "red_flags": [],
+    "bias_flags": [
+      "Potential 'overqualification bias' as her extensive experience as a Senior Software Engineer/Tech Lead might be seen as a negative for a specialist role, even though her general soft skills are high."
+    ],
+    "summary": "Overall compatibility score of 8/10. Excellent communication skills, which are crucial for any marketing role. However, No direct experience in digital marketing, content creation, or digital marketing strategy."
+  },
+  "notes": [
+    "Scores are divided by 10 to normalize from 0-100 scale to 0-10 scale",
+    "Key Strength array maps to strengths array",
+    "Concerns array maps to concerns array",
+    "Bias Detection array maps to bias_flags array",
+    "red_flags is left empty as it's not in the raw response",
+    "summary is auto-generated from score and first strength/concern"
+  ]
+}

@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { SALARY_BENCHMARKS, type CandidateProfile } from "@/app/lib/mock-candidates";
-import { askFlowise, CHATFLOW_IDS, parseJsonFromLLM } from "@/app/lib/flowise";
+import { SALARY_BENCHMARKS, INHOUSE_SALARY_RANGES, type CandidateProfile } from "@/app/lib/mock-candidates";
+import { parseFlowiseStructuredOutput } from "@/app/lib/flowise";
+import { getMockCompensationData } from "@/app/lib/mock-flowise-response";
 
 /* ── Types ── */
-interface OfferScenario {
+interface CompAnalysis {
     label: string;
     baseSalary: number;
     signingBonus: number;
@@ -15,10 +16,6 @@ interface OfferScenario {
     acceptanceProbability: number;
     justification: string;
     pros: string[];
-}
-
-interface CompAnalysis {
-    scenarios: OfferScenario[];
     rationale: string;
     negotiation_playbook: string;
 }
@@ -54,9 +51,9 @@ function HiringSteps({ active }: { active: number }) {
 export default function CompensationClient() {
     const [candidate, setCandidate] = useState<CandidateProfile | null>(null);
     const [feedbackScore, setFeedbackScore] = useState<number>(0);
+    const [scorecard, setScorecard] = useState<any>(null);
     const [analysis, setAnalysis] = useState<CompAnalysis | null>(null);
     const [analyzing, setAnalyzing] = useState(false);
-    const [selectedScenario, setSelectedScenario] = useState<number>(1); // default to recommended
 
     // Load candidate data from previous step
     useEffect(() => {
@@ -66,6 +63,7 @@ export default function CompensationClient() {
                 const parsed = JSON.parse(saved);
                 setCandidate(parsed.candidate);
                 setFeedbackScore(parsed.scorecard?.overall_score || 0);
+                setScorecard(parsed.scorecard);
             } catch { }
         }
     }, []);
@@ -75,84 +73,71 @@ export default function CompensationClient() {
         setAnalyzing(true);
 
         const benchmarks = SALARY_BENCHMARKS[candidate.role]?.[candidate.location] || SALARY_BENCHMARKS[candidate.role]?.["Malaysia"];
+        const inHouseRanges = INHOUSE_SALARY_RANGES[candidate.role]?.[candidate.location] || INHOUSE_SALARY_RANGES[candidate.role]?.["Malaysia"];
 
         try {
-            const prompt = `You are an expert compensation analyst at a global fintech company. Given the following candidate and market data, generate 3 offer scenarios.
+            // Format candidate and compensation data for analysis
+            const compensationData = {
+                candidate: {
+                    name: candidate.name,
+                    role: candidate.role,
+                    location: candidate.location,
+                    experience: candidate.experience,
+                    aiReviewScore: feedbackScore,
+                    strengths: scorecard?.strengths || [],
+                    weaknesses: scorecard?.concerns || [],
+                    previousSalary: candidate.previousSalary || null,
+                    expectedSalaryRange: candidate.expectedSalaryRange || null,
+                },
+                marketBenchmarks: {
+                    p25: benchmarks?.p25 || 0,
+                    p50: benchmarks?.p50 || 0,
+                    p75: benchmarks?.p75 || 0,
+                    p90: benchmarks?.p90 || 0,
+                    currency: "USD"
+                },
+                inHouseSalaryRange: {
+                    min: inHouseRanges?.min || 0,
+                    median: inHouseRanges?.median || 0,
+                    max: inHouseRanges?.max || 0,
+                    sampleSize: inHouseRanges?.sampleSize || 0,
+                    description: `Internal salary band for ${candidate.role} in ${candidate.location} (based on ${inHouseRanges?.sampleSize || 0} current employees)`,
+                    currency: "USD"
+                }
+            };
 
-CANDIDATE: ${candidate.name}
-ROLE: ${candidate.role}
-LOCATION: ${candidate.location}
-EXPERIENCE: ${candidate.experience} years
-AI REVIEW SCORE: ${feedbackScore}/10
+            const prompt = JSON.stringify(compensationData);
 
-MARKET BENCHMARKS (USD annual):
-- P25: $${benchmarks?.p25?.toLocaleString() || "N/A"}
-- P50 (median): $${benchmarks?.p50?.toLocaleString() || "N/A"}
-- P75: $${benchmarks?.p75?.toLocaleString() || "N/A"}
-- P90: $${benchmarks?.p90?.toLocaleString() || "N/A"}
+            // Call Flowise prediction API
+            // const response = await fetch('http://localhost:3000/api/v1/prediction/d4bfa403-8021-423b-9232-6d75e8a38eb3', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         question: prompt,
+            //     }),
+            // });
 
-Respond ONLY with a JSON object:
-{
-  "scenarios": [
-    {
-      "label": "Conservative",
-      "baseSalary": <number>,
-      "signingBonus": <number>,
-      "equity": "<equity description>",
-      "totalComp": <number>,
-      "acceptanceProbability": <number 0-100>,
-      "justification": "<concise sentence explaining why this probability was chosen>",
-      "pros": ["<pro 1>", "<pro 2>"]
-    },
-    { ...Competitive scenario (recommended)... },
-    { ...Aggressive scenario... }
-  ],
-  "rationale": "<2-3 sentences explaining the compensation strategy>",
-  "negotiation_playbook": "<3-4 sentences of negotiation guidance>"
-}`;
+            // if (!response.ok) {
+            //     throw new Error(`HTTP error! status: ${response.status}`);
+            // }
 
-            const result = await askFlowise(CHATFLOW_IDS.COMPENSATION, prompt);
-            const parsed = parseJsonFromLLM<CompAnalysis>(result.text || JSON.stringify(result));
-            setAnalysis(parsed);
+            // const result = await response.json();
+
+            // Parse the Flowise structured output
+            // const parsed = parseFlowiseStructuredOutput<CompAnalysis>(result);
+            const parsed = getMockCompensationData();
+            
+            // Validate that required fields exist
+            if (parsed && parsed.baseSalary && parsed.totalComp) {
+                setAnalysis(parsed);
+            } else {
+                throw new Error("Invalid response structure from API");
+            }
         } catch (err) {
             console.error("Flowise call failed, using mock data:", err);
-            const base = benchmarks?.p50 || 100000;
-            setAnalysis({
-                scenarios: [
-                    {
-                        label: "Conservative",
-                        baseSalary: Math.round(base * 0.92),
-                        signingBonus: 5000,
-                        equity: "Standard RSU grant — 4yr vesting, 1yr cliff",
-                        totalComp: Math.round(base * 0.92) + 5000,
-                        acceptanceProbability: 55,
-                        justification: "Base salary is below market median; candidate may feel undervalued without a stronger incentive.",
-                        pros: ["Lower budget impact", "Room for performance-based increases"],
-                    },
-                    {
-                        label: "Competitive",
-                        baseSalary: base,
-                        signingBonus: 10000,
-                        equity: "Enhanced RSU grant — 15% above standard",
-                        totalComp: base + 10000,
-                        acceptanceProbability: 78,
-                        justification: "Aligned with market targets and provides a balanced mix of cash and long-term equity.",
-                        pros: ["Aligns with market median", "Balance of cash and equity incentives"],
-                    },
-                    {
-                        label: "Aggressive",
-                        baseSalary: Math.round(base * 1.12),
-                        signingBonus: 20000,
-                        equity: "Premium RSU grant — top-tier allocation",
-                        totalComp: Math.round(base * 1.12) + 20000,
-                        acceptanceProbability: 92,
-                        justification: "Top-of-market offer with significant signing bonus virtually eliminates competitive risk.",
-                        pros: ["Strong retention signal", "Eliminates counter-offer risk"],
-                    },
-                ],
-                rationale: `Based on ${candidate.name}'s strong interview performance (${feedbackScore}/10) and ${candidate.experience} years of experience, we recommend a competitive offer at market median. The candidate's current expected salary range suggests they would accept an offer at this level, with the signing bonus providing additional incentive for a quick decision.`,
-                negotiation_playbook: `Lead with the total compensation package value, not just base salary. Emphasize the equity upside and Deriv's growth trajectory. If the candidate counters above the competitive scenario, consider increasing the signing bonus rather than base (one-time cost vs. recurring). Keep the aggressive scenario in reserve as a final best-and-final offer only if there's a competing offer.`,
-            });
+            setAnalysis(getMockCompensationData());
         } finally {
             setAnalyzing(false);
         }
@@ -171,7 +156,16 @@ Respond ONLY with a JSON object:
         const data = {
             candidate,
             feedbackScore,
-            selectedScenario: analysis.scenarios[selectedScenario],
+            selectedScenario: {
+                label: analysis.label,
+                baseSalary: analysis.baseSalary,
+                signingBonus: analysis.signingBonus,
+                equity: analysis.equity,
+                totalComp: analysis.totalComp,
+                acceptanceProbability: analysis.acceptanceProbability,
+                justification: analysis.justification,
+                pros: analysis.pros,
+            },
         };
         localStorage.setItem("hiring-compensation-data", JSON.stringify(data));
         window.location.href = "/hiring/approval";
@@ -199,10 +193,10 @@ Respond ONLY with a JSON object:
             {candidate && (
                 <div className="hi-score-header" style={{ marginBottom: 24 }}>
                     <div className="hi-candidate-avatar" style={{ background: "linear-gradient(135deg, #6366f1, #a78bfa)", width: 50, height: 50, fontSize: 16 }}>
-                        {candidate.name.split(" ").map(n => n[0]).join("")}
+                        {candidate.name?.split(" ").map(n => n[0]).join("") || "??"}
                     </div>
                     <div className="hi-score-meta">
-                        <h3>{candidate.name}</h3>
+                        <h3>{candidate.name || "Unknown Candidate"}</h3>
                         <p>{candidate.role} · {candidate.location} · {candidate.experience}y experience · AI Score: <strong>{feedbackScore}/10</strong></p>
                     </div>
                 </div>
@@ -222,59 +216,52 @@ Respond ONLY with a JSON object:
                 </div>
             )}
 
-            {/* Offer Scenarios */}
+            {/* Offer Scenario */}
             {analysis && !analyzing && (
                 <>
-                    <div className="hi-comp-grid">
-                        {analysis.scenarios.map((s, i) => (
-                            <div
-                                key={i}
-                                className={`hi-comp-card${i === 1 ? " recommended" : ""}${selectedScenario === i ? " selected" : ""}`}
-                                onClick={() => setSelectedScenario(i)}
-                                style={{ cursor: "pointer", borderColor: selectedScenario === i ? "var(--accent)" : undefined }}
-                            >
-                                {i === 1 && <div className="hi-comp-badge">Recommended</div>}
-                                <div className="hi-comp-header">
-                                    <h3>{s.label}</h3>
-                                    <p>{s.pros.join(" · ")}</p>
+                    <div className="hi-comp-single">
+                        <div className="hi-comp-card recommended" style={{ maxWidth: 700, margin: '0 auto' }}>
+                            <div className="hi-comp-badge">AI Recommended Offer</div>
+                            <div className="hi-comp-header">
+                                <h3>{analysis.label}</h3>
+                                <p>{analysis.pros.join(" · ")}</p>
+                            </div>
+                            <div className="hi-comp-total">
+                                {fmt(analysis.totalComp)} <span>/year total</span>
+                            </div>
+                            <div className="hi-comp-details">
+                                <div className="hi-comp-row">
+                                    <span>Base Salary</span>
+                                    <span>{fmt(analysis.baseSalary)}</span>
                                 </div>
-                                <div className="hi-comp-total">
-                                    {fmt(s.totalComp)} <span>/year total</span>
+                                <div className="hi-comp-row">
+                                    <span>Signing Bonus</span>
+                                    <span>{fmt(analysis.signingBonus)}</span>
                                 </div>
-                                <div className="hi-comp-details">
-                                    <div className="hi-comp-row">
-                                        <span>Base Salary</span>
-                                        <span>{fmt(s.baseSalary)}</span>
-                                    </div>
-                                    <div className="hi-comp-row">
-                                        <span>Signing Bonus</span>
-                                        <span>{fmt(s.signingBonus)}</span>
-                                    </div>
-                                    <div className="hi-comp-row">
-                                        <span>Equity</span>
-                                        <span>{s.equity}</span>
-                                    </div>
-                                </div>
-                                <div className="hi-acceptance">
-                                    <div className="hi-acceptance-label">Offer Acceptance Probability</div>
-                                    <div className="hi-acceptance-bar">
-                                        <div
-                                            className="hi-acceptance-fill"
-                                            style={{
-                                                width: `${s.acceptanceProbability}%`,
-                                                background: accColor(s.acceptanceProbability),
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="hi-acceptance-pct" style={{ color: accColor(s.acceptanceProbability) }}>
-                                        {s.acceptanceProbability}%
-                                    </div>
-                                    <p className="hi-acceptance-justification" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, fontStyle: 'italic', lineHeight: 1.3 }}>
-                                        <strong>AI Justification:</strong> {s.justification}
-                                    </p>
+                                <div className="hi-comp-row">
+                                    <span>Equity</span>
+                                    <span>{analysis.equity}</span>
                                 </div>
                             </div>
-                        ))}
+                            <div className="hi-acceptance">
+                                <div className="hi-acceptance-label">Offer Acceptance Probability</div>
+                                <div className="hi-acceptance-bar">
+                                    <div
+                                        className="hi-acceptance-fill"
+                                        style={{
+                                            width: `${analysis.acceptanceProbability}%`,
+                                            background: accColor(analysis.acceptanceProbability),
+                                        }}
+                                    />
+                                </div>
+                                <div className="hi-acceptance-pct" style={{ color: accColor(analysis.acceptanceProbability) }}>
+                                    {analysis.acceptanceProbability}%
+                                </div>
+                                <p className="hi-acceptance-justification" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, fontStyle: 'italic', lineHeight: 1.3 }}>
+                                    <strong>AI Justification:</strong> {analysis.justification}
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* AI Rationale */}

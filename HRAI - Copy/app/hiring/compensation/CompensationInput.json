@@ -1,0 +1,133 @@
+{
+  "candidate": {
+    "name": "Sarah Chen",
+    "role": "Senior Full-Stack Engineer",
+    "location": "Singapore",
+    "experience": 8,
+    "strengths": [
+      "Expert in React, Node.js, and TypeScript with 8+ years of production experience",
+      "Led migration of monolithic architecture to microservices, reducing latency by 40%",
+      "Strong system design skills with proven track record in scaling applications to millions of users",
+      "Excellent communication and mentorship abilities - mentored 5 junior developers",
+      "Experience in fintech domain with understanding of regulatory compliance"
+    ],
+    "weaknesses": [
+      "Limited experience with cloud infrastructure (AWS/GCP) - mostly worked with managed services",
+      "Gap in DevOps practices and CI/CD pipeline optimization",
+      "Needs improvement in automated testing coverage - current projects have 60% coverage",
+      "Less familiar with modern data engineering tools and practices"
+    ],
+    "previousSalaries": {
+      "current": {
+        "company": "TechCorp Singapore",
+        "baseSalary": 95000,
+        "bonus": 12000,
+        "equity": "RSUs worth ~$15,000/year",
+        "totalComp": 122000,
+        "currency": "USD",
+        "year": 2025
+      },
+      "previous": {
+        "company": "StartupXYZ",
+        "baseSalary": 78000,
+        "bonus": 8000,
+        "equity": "Stock options (unvested)",
+        "totalComp": 86000,
+        "currency": "USD",
+        "year": 2022
+      }
+    },
+    "expectedSalary": {
+      "minimum": 110000,
+      "target": 130000,
+      "currency": "USD"
+    }
+  },
+  "industryBenchmarks": {
+    "role": "Senior Full-Stack Engineer",
+    "location": "Singapore",
+    "companySize": "500-1000 employees",
+    "sector": "Fintech",
+    "salaryRange": {
+      "p25": 95000,
+      "p50": 115000,
+      "p75": 135000,
+      "p90": 155000,
+      "currency": "USD",
+      "source": "Mercer 2026 Tech Salary Survey"
+    },
+    "totalCompRange": {
+      "p25": 110000,
+      "p50": 135000,
+      "p75": 165000,
+      "p90": 195000,
+      "currency": "USD"
+    },
+    "typicalEquity": {
+      "vestingSchedule": "4 years with 1 year cliff",
+      "refreshGrants": "Annual performance-based",
+      "percentageOfBase": "15-25%"
+    }
+  },
+  "inhouseSalaryRange": {
+    "role": "Senior Full-Stack Engineer",
+    "currentEmployees": [
+      {
+        "anonymousId": "ENG-001",
+        "experience": 7,
+        "baseSalary": 108000,
+        "bonus": 12000,
+        "equity": "Standard RSU",
+        "totalComp": 120000,
+        "location": "Singapore"
+      },
+      {
+        "anonymousId": "ENG-002",
+        "experience": 9,
+        "baseSalary": 125000,
+        "bonus": 15000,
+        "equity": "Enhanced RSU",
+        "totalComp": 140000,
+        "location": "Singapore"
+      },
+      {
+        "anonymousId": "ENG-003",
+        "experience": 6,
+        "baseSalary": 98000,
+        "bonus": 10000,
+        "equity": "Standard RSU",
+        "totalComp": 108000,
+        "location": "Malaysia (remote)"
+      }
+    ],
+    "budgetedRange": {
+      "minimum": 100000,
+      "target": 120000,
+      "maximum": 145000,
+      "currency": "USD",
+      "notes": "For Singapore-based senior engineers with 6-10 years experience"
+    },
+    "equityBands": {
+      "standard": "0.05% - 0.08% of company",
+      "enhanced": "0.09% - 0.12% of company",
+      "premium": "0.13% - 0.18% of company"
+    },
+    "approvalRequired": {
+      "above": 140000,
+      "approver": "Head of Engineering + CFO"
+    }
+  },
+  "marketContext": {
+    "demandTrend": "High demand for senior engineers in Singapore fintech market",
+    "competitiveFactors": [
+      "Multiple fintech companies expanding in Singapore",
+      "Limited pool of experienced senior engineers with fintech background",
+      "Average time-to-fill for this role: 45-60 days"
+    ],
+    "retentionConsiderations": [
+      "Counter-offers are common for candidates from established tech companies",
+      "Equity value appreciation is key differentiator for startup/growth-stage companies",
+      "Work-life balance and remote flexibility increasingly important post-2024"
+    ]
+  }
+}
