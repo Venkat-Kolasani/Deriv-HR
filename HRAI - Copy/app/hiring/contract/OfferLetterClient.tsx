@@ -110,6 +110,7 @@ export default function OfferLetterClient() {
         nda: false,
         ip_assignment: false,
     });
+    const [scorecard, setScorecard] = useState<any>(null);
     const [downloaded, setDownloaded] = useState(false);
 
     useEffect(() => {
@@ -132,6 +133,15 @@ export default function OfferLetterClient() {
                     setApproved(true);
                 } catch { }
             }
+        }
+
+        // Pull feedback data for personalization
+        const feedbackData = localStorage.getItem("hiring-feedback-data");
+        if (feedbackData) {
+            try {
+                const parsed = JSON.parse(feedbackData);
+                setScorecard(parsed.scorecard);
+            } catch { }
         }
     }, []);
 
@@ -530,12 +540,24 @@ _________________________________________________________________`;
         setGenerating(prev => ({ ...prev, [docType]: true }));
 
         try {
+            const personalNote = scorecard ? `
+Personalization Context:
+- Candidate Strengths: ${scorecard.strengths?.join(", ")}
+- Assessment Summary: ${scorecard.summary}
+
+Instructions for personalization: Use these strengths to write a warm, personalized welcome message in the document that references their specific interview achievements.` : "";
+
             const prompts: Record<DocType, string> = {
-                offer_letter: `You are an HR professional at ${COMPANY_POLICIES.name}. Generate a professional offer letter for ${candidate.name} for the role of ${candidate.role}. Include greeting, role details, compensation (Base: ${fmt(offer.baseSalary)}, Bonus: ${fmt(offer.signingBonus)}, Equity: ${offer.equity}), benefits, terms, and acceptance deadline. Start date: ${startDate}. Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
-                employment_contract: `You are a corporate legal specialist at ${COMPANY_POLICIES.name}. Generate a formal employment contract for ${candidate.name}, ${candidate.role} in ${candidate.department}. Include articles on: Appointment & Duties, Probation (${COMPANY_POLICIES.probationPeriod}), Remuneration (Base: ${fmt(offer.baseSalary)}, Bonus: ${fmt(offer.signingBonus)}), Working Hours & Leave (${COMPANY_POLICIES.benefits.annualLeave} days annual, ${COMPANY_POLICIES.benefits.sickLeave} days sick), Benefits, Termination with notice periods (${COMPANY_POLICIES.noticePeriod.duringProbation} during probation, ${COMPANY_POLICIES.noticePeriod.lessThan2Years} post-probation), and Governing Law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
-                equity_grant: `You are a legal specialist at ${COMPANY_POLICIES.name}. Generate an Equity Grant Agreement for ${candidate.name}, ${candidate.role}. Equity details: ${offer.equity}. Vesting: ${COMPANY_POLICIES.equity.vestingSchedule}. Include sections on Grant details, Vesting schedule (25% cliff year 1, then quarterly), Termination provisions, Change of control acceleration, Settlement, Restrictions, and Governing law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
-                nda: `You are a corporate legal specialist at ${COMPANY_POLICIES.name}. Generate a Non-Disclosure Agreement for ${candidate.name}, ${candidate.role} in ${candidate.department}. Include: Definition of Confidential Information (trade secrets, source code, business strategies, customer data, trading algorithms), Employee obligations, Return of materials upon termination, Duration (2 years post-employment, indefinite for trade secrets), Remedies, and Governing law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
-                ip_assignment: `You are a corporate legal specialist at ${COMPANY_POLICIES.name}. Generate an Intellectual Property Assignment Agreement for ${candidate.name}, ${candidate.role} in ${candidate.department}. Include: Scope, Assignment of all work-created IP (software, inventions, designs, documentation), Prior inventions disclosure, Moral rights waiver, Cooperation obligations, No license back, Third-party software restrictions, and Governing law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
+                offer_letter: `You are an HR professional at ${COMPANY_POLICIES.name}. ${personalNote}
+Generate a professional offer letter for ${candidate.name} for the role of ${candidate.role}. Include greeting, role details, compensation (Base: ${fmt(offer.baseSalary)}, Bonus: ${fmt(offer.signingBonus)}, Equity: ${offer.equity}), benefits, terms, and acceptance deadline. Start date: ${startDate}. Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
+                employment_contract: `You are a corporate legal specialist at ${COMPANY_POLICIES.name}. ${personalNote}
+Generate a formal employment contract for ${candidate.name}, ${candidate.role} in ${candidate.department}. Include articles on: Appointment & Duties, Probation (${COMPANY_POLICIES.probationPeriod}), Remuneration (Base: ${fmt(offer.baseSalary)}, Bonus: ${fmt(offer.signingBonus)}), Working Hours & Leave (${COMPANY_POLICIES.benefits.annualLeave} days annual, ${COMPANY_POLICIES.benefits.sickLeave} days sick), Benefits, Termination with notice periods (${COMPANY_POLICIES.noticePeriod.duringProbation} during probation, ${COMPANY_POLICIES.noticePeriod.lessThan2Years} post-probation), and Governing Law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
+                equity_grant: `You are a legal specialist at ${COMPANY_POLICIES.name}. ${personalNote}
+Generate an Equity Grant Agreement for ${candidate.name}, ${candidate.role}. Equity details: ${offer.equity}. Vesting: ${COMPANY_POLICIES.equity.vestingSchedule}. Include sections on Grant details, Vesting schedule (25% cliff year 1, then quarterly), Termination provisions, Change of control acceleration, Settlement, Restrictions, and Governing law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
+                nda: `You are a corporate legal specialist at ${COMPANY_POLICIES.name}. ${personalNote}
+Generate a Non-Disclosure Agreement for ${candidate.name}, ${candidate.role} in ${candidate.department}. Include: Definition of Confidential Information (trade secrets, source code, business strategies, customer data, trading algorithms), Employee obligations, Return of materials upon termination, Duration (2 years post-employment, indefinite for trade secrets), Remedies, and Governing law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
+                ip_assignment: `You are a corporate legal specialist at ${COMPANY_POLICIES.name}. ${personalNote}
+Generate an Intellectual Property Assignment Agreement for ${candidate.name}, ${candidate.role} in ${candidate.department}. Include: Scope, Assignment of all work-created IP (software, inventions, designs, documentation), Prior inventions disclosure, Moral rights waiver, Cooperation obligations, No license back, Third-party software restrictions, and Governing law (Malaysia). Signatory: Rammya Nair, VP HR, Deriv. Do not use markdown formatting.`,
             };
 
             const result = await askFlowise(CHATFLOW_IDS.OFFER_LETTER, prompts[docType]);
