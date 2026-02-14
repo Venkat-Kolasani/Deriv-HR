@@ -3,7 +3,56 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { MOCK_CANDIDATES, type CandidateProfile } from "@/app/lib/mock-candidates";
-import { askFlowise, CHATFLOW_IDS, parseJsonFromLLM } from "@/app/lib/flowise";
+import { askFlowise, CHATFLOW_IDS, parseJsonFromLLM, parseFlowiseStructuredOutput, type CompatibilityScore } from "@/app/lib/flowise";
+
+/* ── Job Description Constant ── */
+const JOB_DESCRIPTION = {
+    jobTitle: "Digital Marketing Specialist",
+    company: "GreenTech Inc.",
+    location: "San Francisco, CA",
+    type: "Full-time",
+    aboutUs: "A leading provider of sustainable energy solutions and innovative technologies. We're committed to reducing our carbon footprint and promoting environmentally-friendly practices throughout our operations.",
+    jobSummary: "We are seeking an experienced and creative Digital Marketing Specialist to join our team. The ideal candidate will have a strong background in digital marketing, excellent writing and design skills, and the ability to work independently and collaboratively as part of a fast-paced team.",
+    responsibilities: [
+        {
+            description: "Develop and execute comprehensive digital marketing strategies that align with company goals",
+            keySkills: ["strategic planning", "content creation"]
+        },
+        {
+            description: "Conduct market research to stay up-to-date on industry trends and competitor activity",
+            keySkills: ["market analysis", "research skills"]
+        }
+    ],
+    requirements: [
+        {
+            fieldOfStudy: "Marketing, Communications, or related field",
+            degreeLevel: "Bachelor's degree",
+            yearsOfExperience: 3,
+            previousExperience: "3+ years of experience in digital marketing"
+        },
+        {
+            keySkills: ["writing", "design", "analytical skills"],
+            softwareProficiency: ["Adobe Creative Cloud (Photoshop, InDesign, Illustrator)"]
+        }
+    ],
+    niceToHave: [
+        {
+            fieldOfStudy: "Clean energy or sustainability industry",
+            previousExperience: "Experience working in the clean energy or sustainability industry"
+        },
+        {
+            softwareProficiency: ["Google Analytics", "web analytics tools"]
+        }
+    ],
+    benefits: [
+        "Competitive salary range ($70,000-$90,000 per year)",
+        "Comprehensive benefits package",
+        "Opportunities for professional growth and development"
+    ],
+    howToApply: {
+        contactInfo: "Resume and cover letter to [insert contact email or link]"
+    }
+};
 
 /* ── Types ── */
 interface ScorecardData {
@@ -124,39 +173,62 @@ export default function FeedbackClient() {
         }, 1500);
 
         try {
-            const prompt = `You are an expert HR analyst. Analyze the following interview feedback for a candidate applying for the role of ${selectedCandidate.role}.
+            // Format candidate data
+            const candidateData = {
+                id: selectedCandidate.id,
+                name: selectedCandidate.name,
+                role: selectedCandidate.role,
+                department: selectedCandidate.department,
+                experience: selectedCandidate.experience,
+                location: selectedCandidate.location,
+                status: selectedCandidate.status,
+                skills: selectedCandidate.skills,
+                resumeReview: resumeReview,
+                telephonicInterview: telephonic,
+                culturalFit: culturalFit,
+                referenceCheck: referenceCheck
+            };
+            
+            // Combine candidate data and job description into the prompt
+            const prompt = JSON.stringify(candidateData) + JSON.stringify(JOB_DESCRIPTION);
 
-RESUME REVIEW:
-${resumeReview}
+            // Call Flowise prediction API
+            const response = await fetch('http://localhost:3000/api/v1/prediction/0458e1da-1714-45fd-81a3-577d5d7f61c3', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: prompt,
+                }),
+            });
 
-TELEPHONIC INTERVIEW:
-${telephonic}
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-CULTURAL FIT INTERVIEW:
-${culturalFit}
-
-REFERENCE CHECK:
-${referenceCheck}
-
-Respond ONLY with a JSON object (no other text) in this exact format:
-{
-  "overall_score": <number 1-10>,
-  "competencies": {
-    "Technical Skills": <number 1-10>,
-    "Communication": <number 1-10>,
-    "Leadership": <number 1-10>,
-    "Culture Fit": <number 1-10>
-  },
-  "strengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
-  "concerns": ["<concern 1>", "<concern 2>"],
-  "red_flags": ["<red flag if any, otherwise empty array>"],
-  "bias_flags": ["<any potentially biased language detected in feedback, otherwise empty array>"],
-  "summary": "<2-3 sentence natural language summary of the candidate>"
-}`;
-
-            const result = await askFlowise(CHATFLOW_IDS.FEEDBACK, prompt);
-            const parsed = parseJsonFromLLM<ScorecardData>(result.text || JSON.stringify(result));
-            setScorecard(parsed);
+            const result = await response.json();
+            
+            // Parse the new Flowise response format
+            const compatibilityData = parseFlowiseStructuredOutput<CompatibilityScore>(result);
+            
+            // Transform CompatibilityScore into ScorecardData
+            const transformedScorecard: ScorecardData = {
+                overall_score: compatibilityData.score /10,
+                competencies: {
+                    "Technical Skills": compatibilityData["Technical Skills"]/10,
+                    "Communication": compatibilityData["Communication"]/10,
+                    "Leadership": compatibilityData["Leadership"]/10,
+                    "Culture Fit": compatibilityData["Culture Fit"]/10,
+                },
+                strengths: compatibilityData["Key Strength"] || [],
+                concerns: compatibilityData["Concerns"] || [],
+                red_flags: [],
+                bias_flags: [],
+                summary: `Overall compatibility score of ${compatibilityData.score}/10. ${compatibilityData["Key Strength"]?.[0] || ""} However, ${compatibilityData["Concerns"]?.[0] || "some concerns were noted."}`
+            };
+            
+            setScorecard(transformedScorecard);
         } catch (err) {
             // Fallback: generate mock scorecard for demo
             console.error("Flowise call failed, using mock data:", err);

@@ -73,3 +73,77 @@ export function parseJsonFromLLM<T = any>(text: string): T {
         throw new Error("Could not parse JSON from LLM response");
     }
 }
+
+/**
+ * Interface for compatibility score response with detailed analysis
+ */
+export interface CompatibilityScore {
+    score: number;
+    "Key Strength": string[];
+    "Concerns": string[];
+    "Technical Skills": number;
+    "Communication": number;
+    "Leadership": number;
+    "Culture Fit": number;
+    "Bias Detection": string[];
+}
+
+/**
+ * Parse the JSON text from a Flowise response that contains structured output.
+ * The response.text field contains a JSON string with the actual data.
+ * Handles the agentFlowExecutedData format where the text is nested in the response.
+ * 
+ * @param response - The Flowise response object (can be full response with agentFlowExecutedData or simple response)
+ * @returns Parsed structured output object
+ * 
+ * @example
+ * const response = await askFlowise(chatflowId, question);
+ * const result = parseFlowiseStructuredOutput<CompatibilityScore>(response);
+ * console.log(result.score, result["Key Strength"], result.Concerns);
+ */
+export function parseFlowiseStructuredOutput<T = CompatibilityScore>(response: FlowiseResponse | any): T {
+    let textToParse = "";
+
+    // Handle different response formats
+    if (typeof response === "string") {
+        textToParse = response;
+    } else if (response.text) {
+        // The text field contains a JSON string that needs to be parsed
+        textToParse = response.text;
+    } else if (response.agentFlowExecutedData && Array.isArray(response.agentFlowExecutedData)) {
+        // Find the LLM node that has the final output
+        const llmNode = response.agentFlowExecutedData.find(
+            (node: any) => node.nodeLabel?.includes("LLM") && node.data?.output?.content
+        );
+        if (llmNode?.data?.output?.content) {
+            textToParse = llmNode.data.output.content;
+        } else {
+            throw new Error("Could not find LLM output in agentFlowExecutedData");
+        }
+    } else {
+        throw new Error("Flowise response does not contain a 'text' field or recognizable structure");
+    }
+
+    try {
+        // The text field contains a JSON string with escaped newlines (\n)
+        // First parse the outer JSON string, then parse the inner JSON
+        const parsed = JSON.parse(textToParse);
+        return parsed;
+    } catch (error) {
+        // Fallback: try using the general JSON parser for markdown-wrapped JSON
+        try {
+            return parseJsonFromLLM<T>(textToParse);
+        } catch (fallbackError) {
+            console.error("Failed to parse Flowise response:", textToParse);
+            throw new Error(`Could not parse JSON from Flowise response: ${error}`);
+        }
+    }
+}
+
+/**
+ * Convenience function to parse compatibility score from Flowise response
+ */
+export function parseCompatibilityScore(response: FlowiseResponse | any): CompatibilityScore {
+    return parseFlowiseStructuredOutput<CompatibilityScore>(response);
+}
+
