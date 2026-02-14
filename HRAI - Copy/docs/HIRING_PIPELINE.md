@@ -35,36 +35,63 @@ Landing Page → Step 1: Candidate Review → Step 2: Compensation → Step 3: C
 ### Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                          FRONTEND (Next.js 14)                      │
-│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐         │
-│  │ HiringLanding  │  │ FeedbackClient │  │ CompensationCl │         │
-│  │   Client.tsx   │→ │     .tsx       │→ │   ient.tsx     │         │
-│  └────────────────┘  └───────┬────────┘  └───────┬────────┘         │
-│                              │                    │                  │
-│                     localStorage          localStorage               │
-│                    (hiring-feedback       (hiring-compensation       │
-│                       -data)                -data)                   │
-│                              │                    │                  │
-│  ┌────────────────┐  ┌──────▼─────────┐  ┌──────▼─────────┐        │
-│  │ OfferLetter    │← │ ApprovalClient │← │                │        │
-│  │  Client.tsx    │  │     .tsx       │  │                │        │
-│  └───────┬────────┘  └────────────────┘  └────────────────┘        │
-│          │                                                          │
-│          │  fetch('/api/generate-docx')                              │
-│          ▼                                                          │
-│  ┌────────────────┐                                                 │
-│  │ route.ts       │  ← Server-side DOCX generation                 │
-│  │ (docx library) │                                                 │
-│  └────────────────┘                                                 │
-└─────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────┐
+│                           FRONTEND (Next.js 14)                          │
+│                                                                          │
+│  ┌──────────────────┐    localStorage: hiring-selected-candidate         │
+│  │  HiringLanding   │──────────────────────────────┐                     │
+│  │   Client.tsx     │                              ▼                     │
+│  └──────────────────┘                   ┌──────────────────┐             │
+│                                         │  FeedbackClient  │──► Flowise │
+│                                         │     .tsx         │   (Step 1) │
+│                                         └────────┬─────────┘             │
+│                                                  │                       │
+│                              localStorage: hiring-feedback-data          │
+│                                    │             │                       │
+│                                    │             ▼                       │
+│                                    │  ┌──────────────────┐              │
+│                                    │  │ CompensationCl   │──► Flowise  │
+│                                    │  │   ient.tsx       │   (Step 2)  │
+│                                    │  └────────┬─────────┘              │
+│                                    │           │                         │
+│                                    │  localStorage: hiring-compensation │
+│                                    │           │         -data           │
+│                                    │           ▼                         │
+│                                    │  ┌──────────────────┐              │
+│                                    │  │ ApprovalClient   │──► Flowise  │
+│                                    │  │     .tsx         │   (Step 3)  │
+│                                    │  └────────┬─────────┘              │
+│                                    │           │                         │
+│                                    │  localStorage: hiring-approval     │
+│                                    │           │         -status         │
+│                                    │           ▼                         │
+│                                    │  ┌──────────────────┐              │
+│                                    └─►│  OfferLetter     │──► Flowise  │
+│                                       │   Client.tsx     │   (Step 4)  │
+│                                       └───┬──────────┬───┘              │
+│                                           │          │                   │
+│                              window.print()    fetch('/api/              │
+│                              (PDF export)       generate-docx')          │
+│                                                      │                   │
+│                                               ┌──────▼──────┐           │
+│                                               │  route.ts   │           │
+│                                               │(docx library)│           │
+│                                               └─────────────┘           │
+│                                                                          │
+│  ┌─ layout.tsx ──────────────────────────────────────────────────────┐   │
+│  │  Sidebar  │  Topbar  │  ChatWidget (uses Gemini, not Flowise)    │   │
+│  └───────────────────────────────────────────────────────────────────┘   │
+└───────────────────────────────────────────────────────────────────────────┘
                               │
               ┌───────────────┴────────────────┐
               ▼                                ▼
    ┌──────────────────┐             ┌──────────────────┐
    │   Flowise API    │             │   Gemini API     │
    │  (localhost:3000) │             │  (Google Cloud)  │
-   │   Llama 3.3 LLM  │             │  gemini-2.0-flash│
+   │  Ollama+Llama 3.3│             │  gemini-2.0-flash│
+   │                  │             │                  │
+   │  Used by: Steps  │             │  Used by: Chat   │
+   │  1, 2, 3, 4      │             │  Widget, Dashboard│
    └──────────────────┘             └──────────────────┘
 ```
 
