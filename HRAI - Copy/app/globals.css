@@ -16,6 +16,7 @@
 @import "./styles/contract-generator.css";
 @import "./styles/landing.css";
 @import "./styles/chat-widget.css";
+@import "./styles/hiring.css";
 
 body {
   margin: 0;

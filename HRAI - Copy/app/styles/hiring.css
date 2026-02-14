@@ -1,0 +1,1092 @@
+/* ═══════════════════════════════════════════
+   DERIV HR — Hiring Intelligence Styles
+   ═══════════════════════════════════════════ */
+
+/* ═══ PAGE HEADER ═══ */
+.deriv-app .hi-header {
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-header .pg-title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.deriv-app .hi-header .pg-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.deriv-app .hi-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.deriv-app .hi-breadcrumb a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.deriv-app .hi-breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* ═══ STEP INDICATOR ═══ */
+.deriv-app .hi-steps {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+}
+
+.deriv-app .hi-step {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    position: relative;
+    transition: all 0.3s var(--ease);
+    cursor: default;
+    text-decoration: none;
+}
+
+.deriv-app .hi-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: var(--border);
+}
+
+.deriv-app .hi-step .hi-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    transition: all 0.3s var(--ease);
+}
+
+.deriv-app .hi-step.active {
+    color: var(--text);
+    background: rgba(167, 139, 250, 0.05);
+}
+
+.deriv-app .hi-step.active .hi-step-num {
+    background: var(--gradient);
+    color: white;
+}
+
+.deriv-app .hi-step.done {
+    color: var(--text-secondary);
+}
+
+.deriv-app .hi-step.done .hi-step-num {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+}
+
+/* ═══ CANDIDATE SELECTOR ═══ */
+.deriv-app .hi-candidate-selector {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-candidate-card {
+    flex: 1;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: var(--bg-card);
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.deriv-app .hi-candidate-card:hover {
+    border-color: var(--border-hover);
+}
+
+.deriv-app .hi-candidate-card.selected {
+    border-color: var(--accent);
+    background: rgba(167, 139, 250, 0.05);
+}
+
+.deriv-app .hi-candidate-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+}
+
+.deriv-app .hi-candidate-info strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text);
+}
+
+.deriv-app .hi-candidate-info span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* ═══ FEEDBACK FORM ═══ */
+.deriv-app .hi-feedback-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-feedback-card {
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+}
+
+.deriv-app .hi-feedback-card label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.deriv-app .hi-feedback-card label svg {
+    color: var(--accent);
+}
+
+.deriv-app .hi-feedback-card .hi-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(167, 139, 250, 0.12);
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.deriv-app .hi-textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.6;
+    resize: vertical;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.deriv-app .hi-textarea:focus {
+    border-color: var(--border-active);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.08);
+    outline: none;
+}
+
+/* ═══ ACTION BUTTONS ═══ */
+.deriv-app .hi-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    background: var(--gradient);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    box-shadow: 0 4px 20px rgba(167, 139, 250, 0.25);
+}
+
+.deriv-app .hi-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(167, 139, 250, 0.35);
+}
+
+.deriv-app .hi-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.deriv-app .hi-btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deriv-app .hi-btn-secondary:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+}
+
+/* ═══ SCORECARD ═══ */
+.deriv-app .hi-scorecard {
+    animation: hiSlideIn 0.5s var(--ease);
+}
+
+@keyframes hiSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.deriv-app .hi-score-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    border-radius: var(--radius-xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.deriv-app .hi-score-ring {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.deriv-app .hi-score-ring svg {
+    transform: rotate(-90deg);
+}
+
+.deriv-app .hi-score-ring .score-value {
+    position: absolute;
+    font-size: 28px;
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--text);
+}
+
+.deriv-app .hi-score-ring .score-label {
+    position: absolute;
+    bottom: 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.deriv-app .hi-score-meta {
+    flex: 1;
+}
+
+.deriv-app .hi-score-meta h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text);
+}
+
+.deriv-app .hi-score-meta p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Competency bars */
+.deriv-app .hi-competencies {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.deriv-app .hi-competency {
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+}
+
+.deriv-app .hi-competency-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.deriv-app .hi-competency-top span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.deriv-app .hi-competency-top strong {
+    font-size: 14px;
+    color: var(--text);
+}
+
+.deriv-app .hi-competency-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--surface-2);
+    overflow: hidden;
+}
+
+.deriv-app .hi-competency-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--gradient);
+    transition: width 0.8s var(--ease);
+}
+
+/* Strengths / Concerns lists */
+.deriv-app .hi-lists {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.deriv-app .hi-list-card {
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+}
+
+.deriv-app .hi-list-card h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.deriv-app .hi-list-card.strengths h4 {
+    color: var(--success);
+}
+
+.deriv-app .hi-list-card.concerns h4 {
+    color: var(--warning);
+}
+
+.deriv-app .hi-list-card.redflags h4 {
+    color: var(--danger);
+}
+
+.deriv-app .hi-list-card.bias h4 {
+    color: #f59e0b;
+}
+
+.deriv-app .hi-list-item {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.deriv-app .hi-list-card.strengths .hi-list-item {
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.deriv-app .hi-list-card.concerns .hi-list-item {
+    background: rgba(251, 191, 36, 0.08);
+}
+
+.deriv-app .hi-list-card.redflags .hi-list-item {
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.deriv-app .hi-list-card.bias .hi-list-item {
+    background: rgba(245, 158, 11, 0.08);
+}
+
+/* ═══ COMPENSATION CARDS ═══ */
+.deriv-app .hi-comp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-comp-card {
+    padding: 24px;
+    border-radius: var(--radius-xl);
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    transition: all 0.3s var(--ease);
+    position: relative;
+    overflow: hidden;
+}
+
+.deriv-app .hi-comp-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+.deriv-app .hi-comp-card.recommended {
+    border-color: var(--accent);
+    box-shadow: 0 4px 24px rgba(167, 139, 250, 0.15);
+}
+
+.deriv-app .hi-comp-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 6px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--gradient);
+    color: white;
+    border-radius: 0 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.deriv-app .hi-comp-header {
+    margin-bottom: 20px;
+}
+
+.deriv-app .hi-comp-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.deriv-app .hi-comp-header p {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.deriv-app .hi-comp-total {
+    font-size: 28px;
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.deriv-app .hi-comp-total span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.deriv-app .hi-comp-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.deriv-app .hi-comp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+}
+
+.deriv-app .hi-comp-row span:first-child {
+    color: var(--text-muted);
+}
+
+.deriv-app .hi-comp-row span:last-child {
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Acceptance predictor */
+.deriv-app .hi-acceptance {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.deriv-app .hi-acceptance-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.deriv-app .hi-acceptance-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--surface-2);
+}
+
+.deriv-app .hi-acceptance-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s var(--ease);
+}
+
+.deriv-app .hi-acceptance-pct {
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+/* ═══ EXECUTIVE BRIEF ═══ */
+.deriv-app .hi-brief-card {
+    padding: 32px;
+    border-radius: var(--radius-xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-brief-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+    font-family: var(--font-display);
+}
+
+.deriv-app .hi-brief-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 16px 0 8px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.deriv-app .hi-brief-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.deriv-app .hi-brief-highlight {
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    background: rgba(167, 139, 250, 0.08);
+    border-left: 3px solid var(--accent);
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Approval buttons */
+.deriv-app .hi-approval-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.deriv-app .hi-btn-approve {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, #10b981, #34d399);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+}
+
+.deriv-app .hi-btn-approve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.35);
+}
+
+.deriv-app .hi-btn-reject {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deriv-app .hi-btn-reject:hover {
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.deriv-app .hi-btn-discuss {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deriv-app .hi-btn-discuss:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+}
+
+/* ═══ CONTRACT PREVIEW ═══ */
+.deriv-app .hi-contract-preview {
+    padding: 32px;
+    border-radius: var(--radius-xl);
+    background: #ffffff;
+    color: #1a1a1a;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    font-size: 13px;
+    line-height: 1.7;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.deriv-app .hi-download-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deriv-app .hi-download-btn:hover {
+    border-color: var(--accent);
+    background: rgba(167, 139, 250, 0.05);
+}
+
+.deriv-app .hi-download-btn svg {
+    color: var(--accent);
+}
+
+/* ═══ AI RATIONALE ═══ */
+.deriv-app .hi-rationale {
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-rationale h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.deriv-app .hi-rationale h4 svg {
+    color: var(--accent);
+}
+
+.deriv-app .hi-rationale p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ═══ LOADING STATE ═══ */
+.deriv-app .hi-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 48px;
+    text-align: center;
+}
+
+.deriv-app .hi-loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.deriv-app .hi-loading h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.deriv-app .hi-loading p {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ═══ SUCCESS STATE ═══ */
+.deriv-app .hi-success {
+    text-align: center;
+    padding: 48px 24px;
+    animation: hiSlideIn 0.5s var(--ease);
+}
+
+.deriv-app .hi-success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.12);
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deriv-app .hi-success-icon svg {
+    color: var(--success);
+}
+
+.deriv-app .hi-success h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.deriv-app .hi-success p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1024px) {
+    .deriv-app .hi-feedback-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .deriv-app .hi-comp-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .deriv-app .hi-competencies {
+        grid-template-columns: 1fr;
+    }
+
+    .deriv-app .hi-lists {
+        grid-template-columns: 1fr;
+    }
+
+    .deriv-app .hi-candidate-selector {
+        flex-direction: column;
+    }
+
+    .deriv-app .hi-steps {
+        flex-direction: column;
+    }
+
+    .deriv-app .hi-landing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .deriv-app .hi-info-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .deriv-app .hi-info-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ═══ LANDING PAGE ═══ */
+.deriv-app .hi-pipeline-overview {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 18px 28px;
+    border-radius: var(--radius-xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+}
+
+.deriv-app .hi-pipeline-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.deriv-app .hi-pipeline-num {
+    font-size: 26px;
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--accent);
+}
+
+.deriv-app .hi-pipeline-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.deriv-app .hi-pipeline-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+}
+
+/* Candidate Landing Cards */
+.deriv-app .hi-landing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.deriv-app .hi-landing-card {
+    padding: 20px 24px;
+    border-radius: var(--radius-xl);
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+}
+
+.deriv-app .hi-landing-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.deriv-app .hi-landing-card.expanded {
+    border-color: var(--accent);
+    box-shadow: 0 6px 32px rgba(167, 139, 250, 0.15);
+}
+
+.deriv-app .hi-landing-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.deriv-app .hi-landing-card-title {
+    flex: 1;
+}
+
+.deriv-app .hi-landing-card-title h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: var(--text);
+}
+
+.deriv-app .hi-landing-role {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.deriv-app .hi-landing-status {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.deriv-app .hi-landing-stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+.deriv-app .hi-landing-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.deriv-app .hi-landing-stat-item svg {
+    color: var(--accent);
+    opacity: 0.6;
+}
+
+/* Expanded details */
+.deriv-app .hi-landing-expanded {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    animation: hiSlideIn 0.3s var(--ease);
+}
+
+.deriv-app .hi-landing-detail-section {
+    margin-bottom: 16px;
+}
+
+.deriv-app .hi-landing-detail-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.deriv-app .hi-landing-detail-section h4 svg {
+    color: var(--accent);
+}
+
+.deriv-app .hi-landing-detail-section p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+}
+
+.deriv-app .hi-start-pipeline-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 14px;
+    font-size: 15px;
+}
+
+/* Info cards */
+.deriv-app .hi-info-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.deriv-app .hi-info-card {
+    padding: 22px;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: all 0.2s var(--ease);
+}
+
+.deriv-app .hi-info-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+.deriv-app .hi-info-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.deriv-app .hi-info-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.deriv-app .hi-info-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
