@@ -6,10 +6,9 @@
 2. [Architecture](#architecture)
 3. [File Structure](#file-structure)
 4. [Code Walkthrough](#code-walkthrough)
-5. [Manual Setup Required](#manual-setup-required)
-6. [How to Create Flowise Chatflows](#how-to-create-flowise-chatflows)
-7. [Environment Variables](#environment-variables)
-8. [Demo Flow](#demo-flow)
+5. [Setup — Gemini API Key](#setup--gemini-api-key)
+6. [Environment Variables](#environment-variables)
+7. [Demo Flow](#demo-flow)
 
 ---
 
@@ -26,8 +25,8 @@ The Hiring Intelligence System is an **end-to-end AI-powered hiring pipeline** i
 | **4. Offer Letter** | `/hiring/contract` | AI generates personalized offer letter. Download as `.docx` or PDF |
 
 **Key Design Decisions:**
-- **No Python backend** — Flowise handles all AI/LLM calls, Next.js API routes handle `.docx` generation
-- **Graceful fallback** — Every AI call has mock data fallback, so the demo works even without Flowise/Ollama running
+- **Google Gemini Flash API** — All AI calls go directly to Gemini 2.0 Flash via REST API. No local LLM setup needed.
+- **Graceful fallback** — Every AI call has mock data fallback, so the demo works even without a valid API key
 - **State passing** — Candidate data flows between pages via `localStorage`, making the pipeline stateful without a database
 - **Landing page entry** — A single "Hiring Intelligence" sidebar item under the "AI Tools" group leads to the landing page with all shortlisted candidates
 
@@ -49,22 +48,20 @@ The Hiring Intelligence System is an **end-to-end AI-powered hiring pipeline** i
 └──────────────┬──────────────────┬─────────────────────┘
                │                  │
                ▼                  ▼
-     ┌─────────────────┐  ┌───────────────────┐
-     │  Flowise :3000   │  │ Next.js API Route │
-     │  (AI/LLM calls)  │  │ /api/generate-docx│
-     │                   │  │ (docx npm package)│
-     │  ChatOllama node  │  └───────────────────┘
-     │       ↓           │
-     │  Ollama :11434    │
-     │  (Local Llama)    │
-     └───────────────────┘
+  ┌──────────────────────┐  ┌───────────────────┐
+  │  Google Gemini API    │  │ Next.js API Route │
+  │  (gemini-2.0-flash)   │  │ /api/generate-docx│
+  │                       │  │ (docx npm package)│
+  │  REST API call with   │  └───────────────────┘
+  │  JSON response mode   │
+  └──────────────────────┘
 ```
 
 **Data flow:**
 1. User navigates to `/hiring` → sees all shortlisted candidates as expandable cards
 2. User clicks a candidate card → views interview summaries (resume, telephonic, cultural fit, reference)
 3. User clicks **"Start AI Hiring Pipeline"** → candidate data stored in `localStorage`, redirected to `/hiring/feedback`
-4. Step 1: Feedback text sent to Flowise → ChatOllama → Ollama (Llama) → JSON scorecard returned
+4. Step 1: Feedback text sent to Gemini API → JSON scorecard returned (with `responseMimeType: "application/json"`)
 5. Steps 2-4: Data saved to `localStorage` between steps
 6. Final step: Offer letter text sent to `/api/generate-docx` → `.docx` generated and streamed back
 
@@ -135,7 +132,7 @@ function handleStartPipeline(c: CandidateProfile) {
 ```
 
 **UI Sections:**
-1. **Pipeline Overview Bar** — Shows "3 Shortlisted", "4 AI Steps", "Powered by Llama" stats
+1. **Pipeline Overview Bar** — Shows "3 Shortlisted", "4 AI Steps", "Powered by Gemini" stats
 2. **Candidate Cards Grid** — One card per shortlisted candidate with:
    - Avatar (initials on gradient background)
    - Name, role, status badge ("Interview Complete" or "Shortlisted")
@@ -150,26 +147,39 @@ function handleStartPipeline(c: CandidateProfile) {
 - `FeedbackClient.tsx` has a `useEffect` that reads this key on mount and auto-populates the feedback fields
 - Previous pipeline data is cleared so each run starts fresh
 
-### 1. `lib/flowise.ts` — Flowise API Helper
+### 1. `lib/flowise.ts` — Gemini API Helper
 
-This is the bridge between the frontend and Flowise (which wraps Ollama/Llama).
+This is the bridge between the frontend and Google Gemini.
 
 ```typescript
-// Core function — sends a question to a Flowise chatflow
-export async function askFlowise(chatflowId: string, question: string) {
-  const res = await fetch(`${FLOWISE_BASE}/api/v1/prediction/${chatflowId}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question }),
-  });
-  return res.json();
+// Core function — sends a prompt to Gemini Flash
+async function askGemini(question: string): Promise<FlowiseResponse> {
+  const wantsJson = question.toLowerCase().includes("json");
+  const res = await fetch(
+    `${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: question }] }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 4096,
+          ...(wantsJson ? { responseMimeType: "application/json" } : {}),
+        },
+      }),
+    }
+  );
+  const data = await res.json();
+  return { text: data?.candidates?.[0]?.content?.parts?.[0]?.text || "" };
 }
 ```
 
 **Key details:**
-- `CHATFLOW_IDS` object stores the 4 chatflow IDs (one per module). These need to be updated after you create the chatflows in Flowise.
-- `parseJsonFromLLM()` handles the fact that LLMs sometimes wrap JSON in markdown code blocks (` ```json ... ``` `). It strips the wrapper and extracts valid JSON.
-- Supports optional API key authentication via `NEXT_PUBLIC_FLOWISE_API_KEY`.
+- Uses `gemini-2.0-flash` by default — fast, high-quality responses
+- Automatically enables **JSON response mode** (`responseMimeType: "application/json"`) when the prompt contains "JSON"
+- `parseJsonFromLLM()` handles edge cases — strips markdown code blocks, trailing commas, and control characters
+- Only requires one env var: `NEXT_PUBLIC_GEMINI_API_KEY`
 
 ### 2. `lib/mock-candidates.ts` — Mock Data
 
@@ -326,7 +336,7 @@ The sparkle icon is a custom star SVG. Clicking it navigates to the landing page
 ### 10. `styles/hiring.css` — Landing Page Styles
 
 New CSS classes added for the landing page (prefixed `hi-landing-*` and `hi-info-*`):
-- **`.hi-pipeline-overview`** — horizontal stats bar (Shortlisted count, AI Steps, Powered by Llama)
+- **`.hi-pipeline-overview`** — horizontal stats bar (Shortlisted count, AI Steps, Powered by Gemini)
 - **`.hi-landing-card`** — expandable candidate cards with hover/expand transitions
 - **`.hi-landing-expanded`** — animated detail sections showing interview previews
 - **`.hi-start-pipeline-btn`** — full-width CTA button inheriting `.hi-btn-primary`
@@ -335,226 +345,50 @@ New CSS classes added for the landing page (prefixed `hi-landing-*` and `hi-info
 
 ---
 
-## Manual Setup Required
+## Setup — Gemini API Key
 
-### 1. Ollama — Local LLM Server
+The only setup required is a **Google Gemini API key**. No local LLM, no Flowise, no Ollama.
 
-Ollama must be installed and running with a Llama model.
+### Step 1: Get a Gemini API Key
 
-```bash
-# Install Ollama (if not already installed)
-curl -fsSL https://ollama.com/install.sh | sh
+1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
+2. Click **"Create API Key"**
+3. Copy the key
 
-# Pull a Llama model (choose one)
-ollama pull llama3.1:8b       # Recommended — good balance of speed/quality
-# OR
-ollama pull llama3.2:3b       # Faster, lighter
-# OR
-ollama pull llama3.1:70b      # Best quality, needs GPU with 48GB+ VRAM
+### Step 2: Configure `.env.local`
 
-# Start Ollama (if not auto-started)
-ollama serve
-```
-
-Ollama runs on `http://localhost:11434` by default.
-
-### 2. Flowise — AI Flow Builder
-
-Flowise should already be running (`npx flowise start`). Open the UI at `http://localhost:3000`.
-
-You need to create **4 chatflows** in Flowise. See the detailed guide below.
-
-### 3. Chatflow IDs → Code Configuration
-
-After creating the 4 chatflows, copy their IDs into the code.
-
-**Option A: Environment variables** (recommended)
-
-Create or update `.env.local` in the project root:
+Create a `.env.local` file in the `HRAI - Copy/` project root:
 
 ```env
-NEXT_PUBLIC_FLOWISE_URL=http://localhost:3000
-NEXT_PUBLIC_FLOWISE_FEEDBACK_ID=your-feedback-chatflow-id-here
-NEXT_PUBLIC_FLOWISE_COMPENSATION_ID=your-compensation-chatflow-id-here
-NEXT_PUBLIC_FLOWISE_BRIEF_ID=your-brief-chatflow-id-here
-NEXT_PUBLIC_FLOWISE_OFFER_ID=your-offer-chatflow-id-here
-
-# Only needed if you set an API key in Flowise
-# NEXT_PUBLIC_FLOWISE_API_KEY=your-flowise-api-key
+# Gemini AI Configuration
+NEXT_PUBLIC_GEMINI_API_KEY=your-api-key-here
+NEXT_PUBLIC_GEMINI_MODEL=gemini-2.0-flash
 ```
 
-**Option B: Edit the code directly**
-
-Open `app/lib/flowise.ts` and replace the placeholder IDs:
-
-```typescript
-export const CHATFLOW_IDS = {
-  FEEDBACK: "paste-your-feedback-chatflow-id",
-  COMPENSATION: "paste-your-compensation-chatflow-id",
-  EXECUTIVE_BRIEF: "paste-your-brief-chatflow-id",
-  OFFER_LETTER: "paste-your-offer-chatflow-id",
-};
-```
-
-### 4. Install the `docx` npm package
-
-This should already be installed. If not:
+### Step 3: Restart the dev server
 
 ```bash
-npm install docx
+npm run dev
 ```
 
----
-
-## How to Create Flowise Chatflows
-
-### Step-by-Step (for all 4 chatflows)
-
-1. Open Flowise at `http://localhost:3000`
-2. Click **"+ Add New"** (or "Chatflows" → "Add New")
-3. Drag these nodes onto the canvas:
-
-   **Required nodes:**
-   - **ChatOllama** (under "Chat Models")
-   - **Prompt Template** (under "Prompts") — optional but recommended
-
-4. **Configure the ChatOllama node:**
-   - **Base URL**: `http://localhost:11434`
-   - **Model Name**: `llama3.1:8b` (or whichever model you pulled)
-   - **Temperature**: `0.3` (we want structured, consistent output)
-
-5. **Connect the nodes:**
-   - If using Prompt Template: connect Prompt Template → ChatOllama
-   - The chat input automatically connects to the chain
-
-6. **Save the chatflow** with a descriptive name
-7. **Copy the chatflow ID** — visible in the URL bar or the chatflow settings
-
-### Chatflow Names & System Prompts
-
-Create 4 chatflows with these names and purposes:
-
-#### Chatflow 1: `feedback-synthesis`
-**Purpose:** Analyzes interview feedback and returns a structured JSON scorecard.
-
-**System Prompt (paste into the ChatOllama system message or Prompt Template):**
-```
-You are an expert HR analyst specializing in hiring decisions. When given interview feedback for a candidate, you analyze it thoroughly and return a structured JSON assessment.
-
-You must ALWAYS respond with ONLY a valid JSON object (no markdown, no explanation, no extra text). The JSON must have this exact structure:
-{
-  "overall_score": <number 1-10>,
-  "competencies": {
-    "Technical Skills": <number 1-10>,
-    "Communication": <number 1-10>,
-    "Leadership": <number 1-10>,
-    "Culture Fit": <number 1-10>
-  },
-  "strengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
-  "concerns": ["<concern 1>", "<concern 2>"],
-  "red_flags": ["<red flag if any, otherwise empty array>"],
-  "bias_flags": ["<any potentially biased language detected in the feedback>"],
-  "summary": "<2-3 sentence summary of the candidate>"
-}
-```
-
-#### Chatflow 2: `compensation-analysis`
-**Purpose:** Generates 3 salary offer scenarios with rationale.
-
-**System Prompt:**
-```
-You are an expert compensation analyst at a global fintech company. When given candidate details and market benchmarks, you generate exactly 3 offer scenarios.
-
-You must ALWAYS respond with ONLY a valid JSON object:
-{
-  "scenarios": [
-    {
-      "label": "Conservative",
-      "baseSalary": <number>,
-      "signingBonus": <number>,
-      "equity": "<description>",
-      "totalComp": <number>,
-      "acceptanceProbability": <number 0-100>,
-      "pros": ["<pro 1>", "<pro 2>"]
-    },
-    { ...Competitive scenario... },
-    { ...Aggressive scenario... }
-  ],
-  "rationale": "<2-3 sentences>",
-  "negotiation_playbook": "<3-4 sentences>"
-}
-```
-
-#### Chatflow 3: `executive-brief`
-**Purpose:** Generates a CEO-ready hiring brief in markdown.
-
-**System Prompt:**
-```
-You are an executive communications specialist. Write concise, data-driven CEO approval briefs for hiring decisions.
-
-Structure your response in markdown with these sections:
-## Candidate Highlight
-## Interview Assessment
-## Compensation Recommendation
-## Strategic Value
-## Risk Assessment
-## Recommendation
-
-Keep each section to 2-3 sentences. Be direct, quantitative, and executive-friendly.
-```
-
-#### Chatflow 4: `offer-letter`
-**Purpose:** Generates a personalized offer letter.
-
-**System Prompt:**
-```
-You are an HR professional writing offer letters. Generate professional, warm, and comprehensive offer letters.
-
-Include these sections:
-- Greeting
-- Position details (role, department, location, start date)
-- Compensation breakdown (base salary, signing bonus, equity)
-- Benefits summary
-- Terms of employment (probation, notice period)
-- Acceptance deadline (2 weeks from letter date)
-- Closing
-
-Do NOT use markdown formatting. Write in plain text suitable for a formal document.
-```
-
-### Getting the Chatflow IDs
-
-After saving each chatflow:
-1. Open the chatflow
-2. Look at the **URL** — it will be like `http://localhost:3000/chatflows/abc123-def456-...`
-3. The part after `/chatflows/` is the chatflow ID
-4. **OR** click the code/embed icon (< >) in the chatflow toolbar — it shows the API call with the chatflow ID
+That's it! The AI pipeline is now fully powered by Gemini Flash.
 
 ---
 
 ## Environment Variables
 
-Create a `.env.local` file in the project root:
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `NEXT_PUBLIC_GEMINI_API_KEY` | **Yes** | — | Your Google Gemini API key from [AI Studio](https://aistudio.google.com/apikey) |
+| `NEXT_PUBLIC_GEMINI_MODEL` | No | `gemini-2.0-flash` | Gemini model to use |
 
-```env
-# Flowise Configuration
-NEXT_PUBLIC_FLOWISE_URL=http://localhost:3000
-NEXT_PUBLIC_FLOWISE_FEEDBACK_ID=<paste chatflow 1 ID>
-NEXT_PUBLIC_FLOWISE_COMPENSATION_ID=<paste chatflow 2 ID>
-NEXT_PUBLIC_FLOWISE_BRIEF_ID=<paste chatflow 3 ID>
-NEXT_PUBLIC_FLOWISE_OFFER_ID=<paste chatflow 4 ID>
-
-# Optional — only if Flowise has API key auth enabled
-# NEXT_PUBLIC_FLOWISE_API_KEY=<your key>
-```
-
-> **Note:** Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser. This is fine for localhost development. For production, you'd proxy through a server-side API route.
+> **Note:** Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser. This is fine for hackathon/demo use. For production, proxy through a server-side API route.
 
 ---
 
 ## Demo Flow
 
-### Quick Demo (without Flowise/Ollama — uses mock fallback data)
+### Quick Demo (without API key — uses mock fallback data)
 
 1. Start the Next.js app: `npm run dev`
 2. Click **"Hiring Intelligence"** in the sidebar (under AI Tools)
@@ -566,17 +400,12 @@ NEXT_PUBLIC_FLOWISE_OFFER_ID=<paste chatflow 4 ID>
 8. Read the executive brief → click **"Approve Hire"**
 9. Offer letter is generated → click **"Download .docx"** or **"Save PDF"**
 
-### Full Demo (with Flowise + Ollama)
+### Full AI Demo (with Gemini API key)
 
-1. Ensure Ollama is running: `ollama serve`
-2. Ensure a model is loaded: `ollama pull llama3.1:8b`
-3. Ensure Flowise is running: `npx flowise start`
-4. Create the 4 chatflows (see above)
-5. Set the chatflow IDs in `.env.local`
-6. Start Next.js: `npm run dev`
-7. Click **"Hiring Intelligence"** in the sidebar → select a candidate → follow the flow
-
-The AI responses will now be generated by Llama instead of mock data.
+1. Set your Gemini API key in `.env.local` (see setup above)
+2. Start Next.js: `npm run dev`
+3. Click **"Hiring Intelligence"** in the sidebar → select a candidate → follow the flow
+4. All AI responses are now generated by **Gemini 2.0 Flash** — real analysis, not mock data
 
 ---
 
@@ -588,7 +417,6 @@ The AI responses will now be generated by Llama instead of mock data.
 | Landing page | ✅ Done | `/hiring` with candidate cards and pipeline overview |
 | `docx` npm package | ✅ Installed | Already added via `npm install docx` |
 | Sidebar navigation | ✅ Done | "Hiring Intelligence" under AI Tools group |
-| Ollama | ❓ Manual | Install and pull a Llama model |
-| Flowise | ❓ Manual | Create 4 chatflows with system prompts |
-| `.env.local` | ❓ Manual | Set the 4 chatflow IDs after creating them |
-| Mock data fallback | ✅ Built-in | Demo works without Flowise running |
+| Gemini API Key | ❓ Manual | Get from [Google AI Studio](https://aistudio.google.com/apikey) |
+| `.env.local` | ❓ Manual | Set `NEXT_PUBLIC_GEMINI_API_KEY` |
+| Mock data fallback | ✅ Built-in | Demo works without API key |
