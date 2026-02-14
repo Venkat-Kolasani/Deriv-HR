@@ -188,7 +188,7 @@ export default function FeedbackClient() {
                 culturalFit: culturalFit,
                 referenceCheck: referenceCheck
             };
-            
+
             // Combine candidate data and job description into the prompt
             const prompt = JSON.stringify(candidateData) + JSON.stringify(JOB_DESCRIPTION);
 
@@ -208,18 +208,18 @@ export default function FeedbackClient() {
             }
 
             const result = await response.json();
-            
+
             // Parse the new Flowise response format
             const compatibilityData = parseFlowiseStructuredOutput<CompatibilityScore>(result);
-            
+
             // Transform CompatibilityScore into ScorecardData
             const transformedScorecard: ScorecardData = {
-                overall_score: compatibilityData.score /10,
+                overall_score: compatibilityData.score / 10,
                 competencies: {
-                    "Technical Skills": compatibilityData["Technical Skills"]/10,
-                    "Communication": compatibilityData["Communication"]/10,
-                    "Leadership": compatibilityData["Leadership"]/10,
-                    "Culture Fit": compatibilityData["Culture Fit"]/10,
+                    "Technical Skills": compatibilityData["Technical Skills"] / 10,
+                    "Communication": compatibilityData["Communication"] / 10,
+                    "Leadership": compatibilityData["Leadership"] / 10,
+                    "Culture Fit": compatibilityData["Culture Fit"] / 10,
                 },
                 strengths: compatibilityData["Key Strength"] || [],
                 concerns: compatibilityData["Concerns"] || [],
@@ -227,7 +227,7 @@ export default function FeedbackClient() {
                 bias_flags: [],
                 summary: `Overall compatibility score of ${compatibilityData.score}/10. ${compatibilityData["Key Strength"]?.[0] || ""} However, ${compatibilityData["Concerns"]?.[0] || "some concerns were noted."}`
             };
-            
+
             setScorecard(transformedScorecard);
         } catch (err) {
             // Fallback: generate mock scorecard for demo
@@ -360,7 +360,12 @@ export default function FeedbackClient() {
                 <div className="hi-scorecard">
                     {/* Score Header */}
                     <div className="hi-score-header">
-                        <ScoreRing score={scorecard.overall_score} />
+                        <div style={{ textAlign: "center" }}>
+                            <ScoreRing score={scorecard.overall_score} />
+                            <p style={{ fontSize: "0.7rem", color: "#94a3b8", marginTop: "6px", maxWidth: 120, lineHeight: 1.3 }}>
+                                AI holistic assessment - not an average of sub-scores
+                            </p>
+                        </div>
                         <div className="hi-score-meta">
                             <h3>{selectedCandidate.name} — AI Scorecard</h3>
                             <p>{scorecard.summary}</p>
