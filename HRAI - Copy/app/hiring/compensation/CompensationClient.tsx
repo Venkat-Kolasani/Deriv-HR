@@ -13,6 +13,7 @@ interface OfferScenario {
     equity: string;
     totalComp: number;
     acceptanceProbability: number;
+    justification: string;
     pros: string[];
 }
 
@@ -100,6 +101,7 @@ Respond ONLY with a JSON object:
       "equity": "<equity description>",
       "totalComp": <number>,
       "acceptanceProbability": <number 0-100>,
+      "justification": "<concise sentence explaining why this probability was chosen>",
       "pros": ["<pro 1>", "<pro 2>"]
     },
     { ...Competitive scenario (recommended)... },
@@ -124,6 +126,7 @@ Respond ONLY with a JSON object:
                         equity: "Standard RSU grant — 4yr vesting, 1yr cliff",
                         totalComp: Math.round(base * 0.92) + 5000,
                         acceptanceProbability: 55,
+                        justification: "Base salary is below market median; candidate may feel undervalued without a stronger incentive.",
                         pros: ["Lower budget impact", "Room for performance-based increases"],
                     },
                     {
@@ -133,6 +136,7 @@ Respond ONLY with a JSON object:
                         equity: "Enhanced RSU grant — 15% above standard",
                         totalComp: base + 10000,
                         acceptanceProbability: 78,
+                        justification: "Aligned with market targets and provides a balanced mix of cash and long-term equity.",
                         pros: ["Aligns with market median", "Balance of cash and equity incentives"],
                     },
                     {
@@ -142,6 +146,7 @@ Respond ONLY with a JSON object:
                         equity: "Premium RSU grant — top-tier allocation",
                         totalComp: Math.round(base * 1.12) + 20000,
                         acceptanceProbability: 92,
+                        justification: "Top-of-market offer with significant signing bonus virtually eliminates competitive risk.",
                         pros: ["Strong retention signal", "Eliminates counter-offer risk"],
                     },
                 ],
@@ -264,6 +269,9 @@ Respond ONLY with a JSON object:
                                     <div className="hi-acceptance-pct" style={{ color: accColor(s.acceptanceProbability) }}>
                                         {s.acceptanceProbability}%
                                     </div>
+                                    <p className="hi-acceptance-justification" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, fontStyle: 'italic', lineHeight: 1.3 }}>
+                                        <strong>AI Justification:</strong> {s.justification}
+                                    </p>
                                 </div>
                             </div>
                         ))}

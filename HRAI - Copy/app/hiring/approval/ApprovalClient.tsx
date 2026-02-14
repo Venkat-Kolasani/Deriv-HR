@@ -86,6 +86,7 @@ PROPOSED OFFER:
 - Total Comp: ${fmt(selectedOffer.totalComp)}
 - Offer Type: ${selectedOffer.label}
 - Acceptance Probability: ${selectedOffer.acceptanceProbability}%
+- Probability Justification: ${selectedOffer.justification}
 
 Write the brief in clear markdown with these exact sections:
 ## Candidate Highlight
@@ -120,7 +121,9 @@ We recommend the **${selectedOffer.label}** offer package:
 - **Equity:** ${selectedOffer.equity}
 - **Total First-Year Compensation:** ${fmt(selectedOffer.totalComp)}
 
-This positions us at market median, with an estimated **${selectedOffer.acceptanceProbability}% acceptance probability** based on candidate expectations and market analysis.
+This positions us at market median, with an estimated **${selectedOffer.acceptanceProbability}% acceptance probability**.
+- **Reasoning:** ${selectedOffer.justification}
+
 
 ## Strategic Value
 
