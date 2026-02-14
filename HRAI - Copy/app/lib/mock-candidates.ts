@@ -43,22 +43,22 @@ Reference 3 (University Professor): "Outstanding student who consistently demons
     {
         id: "cand-002",
         name: "Marcus Thompson",
-        role: "Product Manager",
-        department: "Product",
-        experience: 5,
+        role: "Marketing Manager",
+        department: "Marketing",
+        experience: 6,
         location: "United Kingdom",
         status: "Interview Complete",
-        skills: ["Product Strategy", "Agile", "Data Analysis", "Stakeholder Management", "User Research"],
-        previousSalary: 82000,
-        expectedSalaryRange: { min: 95000, max: 110000 },
-        resumeReview: `Marcus has an MBA from London Business School and 5 years of product management experience. Currently a Product Manager at a SaaS company managing a portfolio with £2M ARR. His resume shows a transition from business analyst to product management, which demonstrates versatility. He's launched 4 major features with positive metrics (30% increase in user engagement, 25% reduction in churn). He lists certifications in Scrum and Data Analytics. Resume is clean but could be more quantitative in some areas. His LinkedIn shows active thought leadership with articles on product-led growth. Gap: limited experience in financial services/fintech domain specifically.`,
-        telephonicInterview: `Marcus was personable and well-prepared for the call. He had clearly researched Deriv and our product suite. He spoke about his approach to product discovery using dual-track agile and shared how he balances customer requests with strategic priorities. He was honest about his learning curve in fintech but framed it as motivation. He demonstrated strong analytical thinking when discussing A/B testing frameworks. Communication was very clear and structured — used the STAR method naturally. One concern: when pressed on technical depth, he was less confident discussing API architectures, though he acknowledged this and said he relies on strong engineering partnerships. Salary expectation: USD 95,000-110,000. Available immediately.`,
-        culturalFit: `Panel interview went well. Marcus has a warm, engaging personality. He shared stories about cross-functional collaboration and managing stakeholder conflicts. When asked about failure, he openly discussed a product launch that missed targets and what he learned. The team appreciated his honesty. He seems genuinely collaborative rather than ego-driven. However, one interviewer felt his answers were sometimes too "textbook" and wanted to see more unconventional thinking. He asked great questions about the product roadmap and decision-making autonomy. Cultural fit score from panel: 7.5/10. Note: he mentioned his partner is relocating to KL, which adds personal motivation for the move.`,
-        referenceCheck: `Reference 1 (VP Product at SaaSCorp): "Marcus is dependable and thorough. He runs excellent sprint ceremonies and stakeholders trust him. He's not the most visionary PM I've worked with, but his execution is consistently strong. He's great at managing up and keeping leadership informed."
+        skills: ["Brand Strategy", "Content Marketing", "Google Analytics", "HubSpot", "Stakeholder Management"],
+        previousSalary: 78000,
+        expectedSalaryRange: { min: 85000, max: 100000 },
+        resumeReview: `Marcus has an MBA from London Business School and 6 years in marketing and brand management. Currently a Marketing Manager at a consumer goods company managing campaigns with £1.5M annual budget. His resume shows strong experience in content strategy, social media marketing, and brand positioning. He has zero software engineering experience — no programming languages listed, no CS coursework, no technical projects. His technical skills are limited to marketing tools: HubSpot, Google Analytics, Canva, and basic Excel. Resume is well-written and polished but entirely irrelevant for a software engineering role. He listed "interest in technology" under hobbies but has no demonstrable technical competency.`,
+        telephonicInterview: `Marcus was pleasant and articulate during the call. However, when asked basic software engineering questions, he could not answer any. He did not know what an API is, could not explain the difference between frontend and backend, and was unfamiliar with any programming language. When asked why he applied for a Senior Software Engineer role, he said he "wants to transition into tech" but has not taken any concrete steps — no bootcamp, no self-study, no side projects. He asked if the role involved "managing engineers" which suggests he may have misunderstood the position. Communication skills are excellent but entirely non-technical. Salary expectation: USD 85,000-100,000. Available in 2 weeks.`,
+        culturalFit: `Panel found Marcus likeable and personable. He has strong interpersonal skills and would be a good cultural fit for a non-technical role. However, the engineering panel members felt the interview was largely a waste of time — he could not participate in any whiteboard exercise, could not discuss technical architecture, and had no understanding of software development lifecycle. When asked about pair programming, he thought it meant "working in pairs on presentations." Cultural fit score: 4/10 for engineering role (8/10 for a marketing role). The panel unanimously recommended redirecting him to the Marketing department.`,
+        referenceCheck: `Reference 1 (CMO at ConsumerBrands Ltd): "Marcus is an outstanding marketing professional. His campaigns consistently exceed ROI targets. He's creative, data-driven in the marketing sense, and a strong team leader. However, I would not recommend him for a technical engineering role — his strengths are firmly in marketing and brand strategy."
 
-Reference 2 (Engineering Lead): "Working with Marcus was smooth. He writes clear PRDs and respects engineering estimates. He sometimes over-commits to delivery dates which creates pressure, but he's learning to buffer more. He's a team player who brings donuts to retros."
+Reference 2 (Former Manager at BrandAgency): "Marcus is one of the best marketing managers I've hired. He's excellent at client relationships and creative direction. He has mentioned wanting to move into tech but hasn't shown any progress toward that goal. He would thrive in a marketing leadership position."
 
-Both references confirmed no performance issues and would recommend him for a product role.`,
+Both references explicitly cautioned against placing Marcus in a software engineering role.`,
     },
     {
         id: "cand-003",
@@ -67,7 +67,7 @@ Both references confirmed no performance issues and would recommend him for a pr
         department: "Engineering",
         experience: 4,
         location: "Singapore",
-        status: "Shortlisted",
+        status: "Interview Complete",
         skills: ["Machine Learning", "Python", "TensorFlow", "Statistical Modeling", "NLP"],
         previousSalary: 88000,
         expectedSalaryRange: { min: 105000, max: 120000 },
@@ -79,6 +79,46 @@ Both references confirmed no performance issues and would recommend him for a pr
 Reference 2 (PhD Supervisor at NUS): "Exceptional research talent. Her thesis work on adversarial robustness in financial ML was publishable quality. She's self-driven and sets high standards. She can be a perfectionist which sometimes slows initial delivery, but final output is always excellent."
 
 No red flags from either reference. Strong technical endorsement with note about communication style.`,
+    },
+    {
+        id: "cand-004",
+        name: "Raj Patel",
+        role: "Senior Software Engineer",
+        department: "Engineering",
+        experience: 8,
+        location: "Malaysia",
+        status: "Interview Complete",
+        skills: ["Java", "Kubernetes", "Microservices", "PostgreSQL", "Kafka", "System Design"],
+        previousSalary: 110000,
+        expectedSalaryRange: { min: 125000, max: 145000 },
+        resumeReview: `Raj has a BTech in Computer Science from IIT Bombay and 8 years of backend engineering experience. Currently a Senior Engineer at a major payment gateway where he architected a microservices platform processing 2M transactions/day. His resume is deeply technical: Java, Kubernetes, PostgreSQL, Kafka, Redis, gRPC, and Terraform are all listed with production experience. He has 3 AWS certifications (Solutions Architect, Developer, DevOps). He contributed to Apache Kafka's open-source project (2 merged PRs). He led a migration from monolith to microservices that reduced deployment time from 2 hours to 15 minutes. Resume is excellent — well-structured, quantitative, and directly relevant. Only gap: limited frontend experience (basic React only).`,
+        telephonicInterview: `Raj was confident, articulate, and deeply technical. He walked through his payment platform architecture in impressive detail — event sourcing, CQRS patterns, circuit breakers, and exactly how they achieved 99.99% uptime. He explained his approach to performance optimization (reducing payment latency from 800ms to 120ms through query optimization and caching). He was enthusiastic about Deriv's trading platform challenges and drew parallels to his payment processing experience. He asked sharp questions about our deployment pipeline, on-call culture, and technical debt strategy. Salary expectation: USD 125,000-145,000. Available in 6 weeks (current project handover). Communication was clear and structured. He spoke about mentoring junior engineers with genuine passion.`,
+        culturalFit: `Panel was very impressed. Raj demonstrated strong collaborative values — he described establishing code review standards at his current company and running weekly architecture discussions. When presented with the conflict scenario, he shared a real example of disagreeing with his CTO about a technology choice, how he presented data-driven arguments, and ultimately accepted the team decision while documenting his concerns. The panel appreciated his maturity. He asked about team structure, growth paths, and how Deriv handles technical decisions. Cultural fit score: 8.5/10. One interviewer noted he can be a perfectionist about code quality, which might slow initial delivery but ensures long-term maintainability. Overall: excellent engineering culture fit.`,
+        referenceCheck: `Reference 1 (Engineering Director at PaymentFlow): "Raj is one of the most capable backend engineers I've managed in 20 years. His microservices architecture is now the template for all new projects. He's a force multiplier — the junior engineers he mentored are now mid-seniors. He has extremely high standards which occasionally creates friction with 'move fast' cultures, but his output quality is exceptional. I tried everything to retain him."
+
+Reference 2 (Tech Lead at previous company): "Raj transformed our deployment pipeline. He's the person you want architecting your most critical systems. He's thoughtful, methodical, and production-obsessed. He speaks at conferences (KubeCon, Kafka Summit) which shows his community engagement. Only note: he can sometimes over-engineer solutions for smaller problems."
+
+Both references gave unqualified strong recommendations for a senior engineering role.`,
+    },
+    {
+        id: "cand-005",
+        name: "Priya Menon",
+        role: "HR Recruiter",
+        department: "Human Resources",
+        experience: 5,
+        location: "Malaysia",
+        status: "Interview Complete",
+        skills: ["Talent Acquisition", "Employee Relations", "HRIS Systems", "Employer Branding", "Onboarding"],
+        previousSalary: 52000,
+        expectedSalaryRange: { min: 60000, max: 75000 },
+        resumeReview: `Priya has a BA in Human Resource Management from University of Malaya and 5 years of HR experience. Currently a Senior Recruiter at a tech company where she manages end-to-end recruitment for engineering teams — she has successfully filled 40+ engineering positions. Her resume is focused entirely on HR functions: talent acquisition, employer branding, onboarding program design, and HRIS management. She lists "basic Excel," "PowerPoint," and "BambooHR" as her technical skills. There is zero software engineering content on her resume — no programming languages, no technical projects, no CS education. She mentions "passion for tech industry" but this refers to recruiting FOR tech companies, not doing technical work herself. Resume is professional but completely irrelevant for an engineering role.`,
+        telephonicInterview: `Priya was friendly and professional on the call. However, the conversation quickly revealed a fundamental mismatch. She could not define basic programming concepts — when asked about her experience with any programming language, she said "I've been meaning to learn Python." She has no understanding of software architecture, databases, or web development. When asked technical screening questions she uses to evaluate engineering candidates, she admitted she relies on hiring managers and technical panels for those assessments. She was honest about the mismatch and said she applied because "I want to transition into tech from HR." Salary expectation: USD 60,000-75,000. Available immediately. She mentioned enrolling in a beginner Python course on Coursera.`,
+        culturalFit: `Panel struggled with this interview. Priya is clearly an excellent HR professional — warm, organized, great at reading people. However, in an engineering context, she could not participate meaningfully. She could not join the whiteboard design exercise, could not discuss system trade-offs, and had no opinion on code review practices beyond "they seem important." The panel's engineering members scored her 3/10 for engineering cultural fit but informally noted she'd be excellent in an HR role. When asked how she'd contribute to the engineering team, she described organizing team events and improving documentation — valuable but not engineering work. One panelist suggested she'd be perfect for our open Talent Acquisition Lead role. Cultural fit score: 3/10 for engineering, estimated 8/10 for HR.`,
+        referenceCheck: `Reference 1 (HR Director at TechRecruit Co): "Priya is an exceptional recruiter. She has an instinct for matching candidates to roles and her offer acceptance rate is 92%. She's organized, empathetic, and candidates love working with her. She's mentioned wanting to move into a technical role, but I believe her strengths are firmly in people operations. She would be an outstanding HR leader."
+
+Reference 2 (Hiring Manager she supported): "Priya filled 12 critical engineering positions for my team last year, all within timeline. She's excellent at understanding what engineers need even though she's not one herself. She screens for soft skills brilliantly. I'd recommend her for any HR or talent acquisition leadership role without hesitation."
+
+Both references explicitly noted she is not an engineer and should not be placed in an engineering role, while strongly endorsing her for HR positions.`,
     },
 ];
 
@@ -119,6 +159,18 @@ export const SALARY_BENCHMARKS: Record<string, Record<string, { p25: number; p50
         "United Kingdom": { p25: 115000, p50: 138000, p75: 165000, p90: 195000 },
         Singapore: { p25: 108000, p50: 130000, p75: 155000, p90: 185000 },
         Germany: { p25: 105000, p50: 125000, p75: 150000, p90: 178000 },
+    },
+    "Marketing Manager": {
+        Malaysia: { p25: 55000, p50: 68000, p75: 82000, p90: 98000 },
+        "United Kingdom": { p25: 65000, p50: 78000, p75: 95000, p90: 112000 },
+        Singapore: { p25: 60000, p50: 73000, p75: 88000, p90: 105000 },
+        Germany: { p25: 58000, p50: 70000, p75: 85000, p90: 100000 },
+    },
+    "HR Recruiter": {
+        Malaysia: { p25: 40000, p50: 52000, p75: 65000, p90: 78000 },
+        "United Kingdom": { p25: 48000, p50: 60000, p75: 75000, p90: 90000 },
+        Singapore: { p25: 45000, p50: 58000, p75: 70000, p90: 85000 },
+        Germany: { p25: 42000, p50: 55000, p75: 68000, p90: 82000 },
     },
 };
 

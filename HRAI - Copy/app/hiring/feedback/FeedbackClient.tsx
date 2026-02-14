@@ -9,50 +9,65 @@ import { generateMockFlowiseResponse, getMockScorecardData } from "@/app/lib/moc
 
 /* ── Job Description Constant ── */
 const JOB_DESCRIPTION = {
-    jobTitle: "Digital Marketing Specialist",
-    company: "GreenTech Inc.",
-    location: "San Francisco, CA",
+    jobTitle: "Senior Software Engineer",
+    company: "Deriv Group",
+    location: "Cyberjaya, Malaysia (Hybrid)",
     type: "Full-time",
-    aboutUs: "A leading provider of sustainable energy solutions and innovative technologies. We're committed to reducing our carbon footprint and promoting environmentally-friendly practices throughout our operations.",
-    jobSummary: "We are seeking an experienced and creative Digital Marketing Specialist to join our team. The ideal candidate will have a strong background in digital marketing, excellent writing and design skills, and the ability to work independently and collaboratively as part of a fast-paced team.",
+    aboutUs: "Deriv is a leading online trading company with over 20 years of experience, serving millions of traders worldwide. We build high-performance trading platforms that process billions of dollars in trades annually. Our engineering team is at the heart of everything we do.",
+    jobSummary: "We are looking for a Senior Software Engineer to join our Platform Engineering team. You will design, build, and maintain scalable backend services and APIs that power our real-time trading platforms. The ideal candidate has deep experience in distributed systems, strong coding fundamentals, and a passion for fintech.",
     responsibilities: [
         {
-            description: "Develop and execute comprehensive digital marketing strategies that align with company goals",
-            keySkills: ["strategic planning", "content creation"]
+            description: "Design and implement scalable microservices and APIs for real-time trading systems",
+            keySkills: ["system design", "API development", "microservices architecture"]
         },
         {
-            description: "Conduct market research to stay up-to-date on industry trends and competitor activity",
-            keySkills: ["market analysis", "research skills"]
+            description: "Write clean, well-tested, production-quality code in Python, Java, or TypeScript",
+            keySkills: ["Python", "Java", "TypeScript", "unit testing"]
+        },
+        {
+            description: "Collaborate with cross-functional teams to define technical requirements and deliver features",
+            keySkills: ["cross-functional collaboration", "technical communication"]
+        },
+        {
+            description: "Mentor junior engineers, conduct code reviews, and contribute to engineering best practices",
+            keySkills: ["mentorship", "code review", "engineering leadership"]
+        },
+        {
+            description: "Monitor, troubleshoot, and optimize system performance and reliability",
+            keySkills: ["performance optimization", "monitoring", "incident response"]
         }
     ],
     requirements: [
         {
-            fieldOfStudy: "Marketing, Communications, or related field",
-            degreeLevel: "Bachelor's degree",
-            yearsOfExperience: 3,
-            previousExperience: "3+ years of experience in digital marketing"
+            fieldOfStudy: "Computer Science, Software Engineering, or related technical field",
+            degreeLevel: "Bachelor's or Master's degree",
+            yearsOfExperience: 5,
+            previousExperience: "5+ years of professional software engineering experience"
         },
         {
-            keySkills: ["writing", "design", "analytical skills"],
-            softwareProficiency: ["Adobe Creative Cloud (Photoshop, InDesign, Illustrator)"]
+            keySkills: ["data structures", "algorithms", "system design", "REST APIs", "SQL", "Git"],
+            softwareProficiency: ["Python or Java or TypeScript", "PostgreSQL or MySQL", "Docker", "AWS or GCP"]
         }
     ],
     niceToHave: [
         {
-            fieldOfStudy: "Clean energy or sustainability industry",
-            previousExperience: "Experience working in the clean energy or sustainability industry"
+            fieldOfStudy: "Financial technology or trading systems",
+            previousExperience: "Experience building real-time trading or financial platforms"
         },
         {
-            softwareProficiency: ["Google Analytics", "web analytics tools"]
+            softwareProficiency: ["Kubernetes", "Kafka", "Redis", "React", "CI/CD pipelines"]
         }
     ],
     benefits: [
-        "Competitive salary range ($70,000-$90,000 per year)",
-        "Comprehensive benefits package",
-        "Opportunities for professional growth and development"
+        "Competitive salary range (USD 100,000–140,000 per year)",
+        "18 days annual leave + 14 days sick leave",
+        "Full medical coverage for employee and dependents",
+        "USD 2,000/year learning budget for courses and conferences",
+        "Hybrid work arrangement (2 days remote per week)",
+        "4-year equity vesting with 1-year cliff"
     ],
     howToApply: {
-        contactInfo: "Resume and cover letter to [insert contact email or link]"
+        contactInfo: "Apply via careers.deriv.com or email hiring@deriv.com"
     }
 };
 
@@ -117,6 +132,157 @@ function ScoreRing({ score }: { score: number }) {
             <span className="score-label">/ 10</span>
         </div>
     );
+}
+
+/* ── Candidate-Specific Mock Scorecards ── */
+function getCandidateSpecificScorecard(candidate: CandidateProfile): ScorecardData {
+    const scorecards: Record<string, ScorecardData> = {
+        "cand-001": { // Sarah Chen — Strong SWE match
+            overall_score: 9.2,
+            competencies: {
+                "Technical Skills": 9.5,
+                "Communication": 8.5,
+                "Leadership": 9,
+                "Culture Fit": 9,
+            },
+            strengths: [
+                "Exceptional technical depth — built a real-time trading platform handling 50K transactions/sec, directly relevant to Deriv's infrastructure",
+                "Strong proficiency in Python, React, TypeScript, and AWS — matches all JD requirements",
+                "Proven leadership through mentoring 6 engineers and driving architecture decisions",
+                "Published research in distributed systems demonstrates deep CS fundamentals",
+                "Specific interest in fintech aligns perfectly with Deriv's domain",
+            ],
+            concerns: [
+                "3 role changes in 5 years — may indicate tenure risk, though each move was a promotion",
+                "Slight hesitation in conflict resolution scenarios during telephonic interview",
+            ],
+            red_flags: [],
+            bias_flags: [
+                'Reference described feedback style as "quite direct" — may reflect cultural bias in communication assessment rather than an actual concern',
+            ],
+            summary: "Sarah Chen is an exceptional match for the Senior Software Engineer role. Her 7 years of experience building high-scale fintech systems, strong coding fundamentals (Python, React, TypeScript, AWS), and proven leadership make her an ideal candidate. Her real-time trading platform experience is directly relevant to Deriv's core business. Minor concerns about tenure stability should be addressed with competitive retention incentives.",
+        },
+        "cand-002": { // Marcus Thompson — Marketing, no-match
+            overall_score: 3.5,
+            competencies: {
+                "Technical Skills": 1,
+                "Communication": 8.5,
+                "Leadership": 6,
+                "Culture Fit": 5,
+            },
+            strengths: [
+                "Excellent verbal and written communication skills — articulate, structured presenter",
+                "Strong project management and stakeholder coordination abilities",
+                "Demonstrates genuine enthusiasm and willingness to learn",
+            ],
+            concerns: [
+                "Zero software engineering experience — no programming languages, no CS degree, no technical projects",
+                "Cannot answer basic questions about data structures, algorithms, or software development methodologies",
+                "Technical exposure limited to marketing tools (HubSpot, Google Analytics, Canva) — not engineering tools",
+                "Fundamental skills mismatch — would require 2-3 years of training to meet minimum SWE requirements",
+                "Salary expectation ($85K-$100K) does not align with junior-level role he would need to start at",
+            ],
+            red_flags: [
+                "Candidate does not understand why technical questions are being asked — suggests fundamental misunderstanding of the role",
+                "References explicitly caution against placing him in an engineering position",
+            ],
+            bias_flags: [],
+            summary: "Marcus Thompson is a talented marketing professional but is fundamentally unqualified for a Senior Software Engineer role. He has zero programming experience, no CS education, and cannot engage with basic technical concepts. His strengths lie entirely in brand strategy and content marketing. Recommendation: redirect application to a Marketing or Communications role where his skills would be highly valued.",
+        },
+        "cand-003": { // Aisha Rahman — Data Scientist, partial match
+            overall_score: 6.5,
+            competencies: {
+                "Technical Skills": 7,
+                "Communication": 5.5,
+                "Leadership": 5,
+                "Culture Fit": 6.5,
+            },
+            strengths: [
+                "Strong Python programming skills with production-quality code on GitHub",
+                "Deep ML/AI expertise — published at NeurIPS, built fraud detection saving $3.2M",
+                "Understands data pipelines, SQL, and backend processing at scale",
+                "Genuine passion for fintech and financial applications of technology",
+            ],
+            concerns: [
+                "No experience with frontend frameworks (React) — unfamiliar with full-stack web development",
+                "System design experience is limited to ML pipelines, not scalable microservices",
+                "Communication style is introverted — interviewers had to draw out responses",
+                "More researcher than production engineer — heavy on modeling, light on deployment",
+                "Would need significant ramp-up time on web development, APIs, and distributed systems architecture",
+            ],
+            red_flags: [],
+            bias_flags: [
+                "Introversion may be unfairly penalized — long pauses before responding could reflect thoughtfulness rather than hesitation",
+                "Cultural fit score (6.5/10) may undervalue candidates who prefer small-group collaboration over large meetings",
+            ],
+            summary: "Aisha Rahman is a technically talented Data Scientist with partial overlap for a Senior Software Engineer role. Her Python skills and data pipeline experience are relevant, but she lacks frontend development experience, microservices architecture knowledge, and full-stack capabilities. She would be an excellent candidate for a Data Science or ML Engineering role instead. If hired for SWE, expect a 6-month ramp-up period.",
+        },
+        "cand-004": { // Raj Patel — Strong backend SWE match
+            overall_score: 8.5,
+            competencies: {
+                "Technical Skills": 9.5,
+                "Communication": 8,
+                "Leadership": 9,
+                "Culture Fit": 8.5,
+            },
+            strengths: [
+                "8 years of backend engineering with deep expertise in Java, Kubernetes, and microservices — directly relevant to Deriv's platform",
+                "Architected a payment platform processing 2M transactions/day — proven at Deriv's scale",
+                "Reduced payment latency from 800ms to 120ms — strong performance optimization skills",
+                "Active Apache Kafka contributor and conference speaker — demonstrates community leadership",
+                "Strong mentorship track record — mentored 4 junior engineers and established code review standards",
+            ],
+            concerns: [
+                "Limited frontend experience — primarily backend-focused, basic React familiarity only",
+                "Can be overly focused on perfection, which may slow initial delivery velocity",
+                "Salary expectation ($125K-$145K) at the higher end of the JD's range",
+            ],
+            red_flags: [],
+            bias_flags: [],
+            summary: "Raj Patel is a strong match for the Senior Software Engineer role. His 8 years of backend engineering experience, distributed systems expertise, and fintech domain knowledge align excellently with Deriv's requirements. His microservices architecture at payment scale is directly transferable. Minor gap in frontend skills is manageable given the role's backend focus. Highly recommended for hire.",
+        },
+        "cand-005": { // Priya Menon — HR Recruiter, completely mismatched
+            overall_score: 2.0,
+            competencies: {
+                "Technical Skills": 0.5,
+                "Communication": 8,
+                "Leadership": 4,
+                "Culture Fit": 3,
+            },
+            strengths: [
+                "Excellent interpersonal and organizational skills from HR background",
+                "Deep understanding of the tech hiring market — successfully filled 40+ engineering roles",
+                "Strong employer branding and candidate experience management",
+            ],
+            concerns: [
+                "Zero software engineering skills — cannot explain what an API is, has never written code",
+                "No CS degree — BA in Human Resource Management with no technical education",
+                "Lists 'basic Excel' and 'PowerPoint' as technical skills — no programming languages whatsoever",
+                "Could not participate in whiteboard design exercise during cultural fit interview",
+                "Enrolled in beginner Python course but has not completed it — no concrete learning timeline",
+                "References explicitly state she is not an engineer and should not be placed in an engineering role",
+            ],
+            red_flags: [
+                "Complete skills mismatch — candidate recruits FOR engineering roles but has never held one",
+                "Panel unanimously recommends redirecting to HR department instead",
+                "Interview panel scored cultural fit 3/10 for engineering (but 8/10 for HR role)",
+            ],
+            bias_flags: [
+                "Career transition aspirations should be acknowledged — however, the gap is too large for a senior role. Consider suggesting a junior apprenticeship program if available",
+            ],
+            summary: "Priya Menon is an outstanding HR professional but is completely unqualified for a Senior Software Engineer position. She has zero programming skills, no technical education, and cannot engage with any engineering concepts. Both references explicitly caution against an engineering placement. Strong recommendation: redirect her application to an HR leadership or Talent Acquisition Lead role where she would excel.",
+        },
+    };
+
+    return scorecards[candidate.id] || {
+        overall_score: 5.0,
+        competencies: { "Technical Skills": 5, "Communication": 5, "Leadership": 5, "Culture Fit": 5 },
+        strengths: ["Further evaluation needed"],
+        concerns: ["Insufficient data for comprehensive assessment"],
+        red_flags: [],
+        bias_flags: [],
+        summary: `${candidate.name} requires further evaluation for the Senior Software Engineer role.`,
+    };
 }
 
 /* ── Main Component ── */
@@ -212,53 +378,15 @@ export default function FeedbackClient() {
 
             // const result = await response.json();
 
-            // Parse the new Flowise response format
-            //const compatibilityData = parseFlowiseStructuredOutput<CompatibilityScore>(result);
-            const compatibilityData = getMockScorecardData();
-
-            // Transform CompatibilityScore into ScorecardData
-            const transformedScorecard: ScorecardData = {
-                overall_score: compatibilityData.score / 10,
-                competencies: {
-                    "Technical Skills": compatibilityData["Technical Skills"] / 10,
-                    "Communication": compatibilityData["Communication"] / 10,
-                    "Leadership": compatibilityData["Leadership"] / 10,
-                    "Culture Fit": compatibilityData["Culture Fit"] / 10,
-                },
-                strengths: compatibilityData["Key Strength"] || [],
-                concerns: compatibilityData["Concerns"] || [],
-                red_flags: [],
-                bias_flags: [],
-                summary: `Overall compatibility score of ${compatibilityData.score}/10. ${compatibilityData["Key Strength"]?.[0] || ""} However, ${compatibilityData["Concerns"]?.[0] || "some concerns were noted."}`
-            };
+            // Use candidate-specific mock scorecard for demo
+            const mockScorecard = getCandidateSpecificScorecard(selectedCandidate);
+            const transformedScorecard: ScorecardData = mockScorecard;
 
             setScorecard(transformedScorecard);
         } catch (err) {
-            // Fallback: generate mock scorecard for demo
+            // Fallback: use candidate-specific mock scorecard
             console.error("Flowise call failed, using mock data:", err);
-            setScorecard({
-                overall_score: 8.2,
-                competencies: {
-                    "Technical Skills": 9,
-                    "Communication": 7.5,
-                    "Leadership": 8,
-                    "Culture Fit": 8,
-                },
-                strengths: [
-                    "Exceptional technical depth with proven experience in high-scale systems",
-                    "Strong leadership skills demonstrated through team mentoring and project ownership",
-                    "Genuine enthusiasm for the fintech domain with relevant industry knowledge",
-                ],
-                concerns: [
-                    "3 role changes in 5 years may indicate a pattern of short tenures",
-                    "Slight hesitation observed in conflict resolution scenarios during telephonic interview",
-                ],
-                red_flags: [],
-                bias_flags: [
-                    'Reference described feedback style as "quite direct" — may contain cultural bias in communication assessment',
-                ],
-                summary: `${selectedCandidate.name} is a strong candidate with exceptional technical skills and proven leadership abilities. Their experience in high-scale fintech systems aligns well with the role requirements. Minor concerns around tenure stability should be addressed during the offer stage with appropriate retention incentives.`,
-            });
+            setScorecard(getCandidateSpecificScorecard(selectedCandidate));
         } finally {
             clearInterval(interval);
             setAnalyzing(false);
@@ -277,12 +405,16 @@ export default function FeedbackClient() {
         router.push("/hiring/compensation");
     }
 
+    const isLowScore = scorecard ? scorecard.overall_score < 5 : false;
+
     const candidateGradient = (() => {
         const idx = MOCK_CANDIDATES.findIndex((c) => c.id === selectedCandidate.id);
         const gradients = [
             "linear-gradient(135deg, #6366f1, #a78bfa)",
             "linear-gradient(135deg, #10b981, #34d399)",
             "linear-gradient(135deg, #f59e0b, #fbbf24)",
+            "linear-gradient(135deg, #3b82f6, #60a5fa)",
+            "linear-gradient(135deg, #ec4899, #f472b6)",
         ];
         return gradients[idx] || gradients[0];
     })();
@@ -439,12 +571,39 @@ export default function FeedbackClient() {
                         )}
                     </div>
 
-                    {/* Proceed to next step */}
+                    {/* Proceed to next step — blocked if score < 50% */}
                     <div className="hi-actions">
-                        <button className="hi-btn-primary" onClick={handleProceed}>
-                            Proceed to Compensation Analysis
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
-                        </button>
+                        {isLowScore ? (
+                            <div style={{
+                                background: "rgba(239,68,68,0.08)",
+                                border: "1px solid rgba(239,68,68,0.25)",
+                                borderRadius: 12,
+                                padding: "16px 24px",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 12,
+                                color: "#ef4444",
+                                fontSize: 14,
+                                fontWeight: 500,
+                            }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="15" y1="9" x2="9" y2="15" />
+                                    <line x1="9" y1="9" x2="15" y2="15" />
+                                </svg>
+                                <div>
+                                    <div style={{ fontWeight: 600, marginBottom: 2 }}>Pipeline Blocked — Candidate Not Eligible</div>
+                                    <div style={{ color: "var(--text-2)", fontSize: 13 }}>
+                                        Score is below 50% threshold ({((scorecard?.overall_score ?? 0) * 10).toFixed(0)}%). This candidate does not meet the minimum requirements for the Senior Software Engineer role. Consider redirecting to a more suitable position.
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <button className="hi-btn-primary" onClick={handleProceed}>
+                                Proceed to Compensation Analysis
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
