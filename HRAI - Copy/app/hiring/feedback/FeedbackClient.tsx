@@ -361,26 +361,41 @@ export default function FeedbackClient() {
             // Combine candidate data and job description into the prompt
             const prompt = JSON.stringify(candidateData) + JSON.stringify(JOB_DESCRIPTION);
 
-            // Call Flowise prediction API
-            // const response = await fetch('http://localhost:3000/api/v1/prediction/0458e1da-1714-45fd-81a3-577d5d7f61c3', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         question: prompt,
-            //     }),
-            // });
+            //Call Flowise prediction API
+            const response = await fetch('http://localhost:3000/api/v1/prediction/0458e1da-1714-45fd-81a3-577d5d7f61c3', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: prompt,
+                }),
+            });
 
-            // if (!response.ok) {
-            //     throw new Error(`HTTP error! status: ${response.status}`);
-            // }
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-            // const result = await response.json();
+            const result = await response.json();
 
+            const compatibilityData = parseFlowiseStructuredOutput<CompatibilityScore>(result);
+            const transformedScorecard: ScorecardData = {
+                overall_score: compatibilityData.score / 10,
+                competencies: {
+                    "Technical Skills": compatibilityData["Technical Skills"] / 10,
+                    "Communication": compatibilityData["Communication"] / 10,
+                    "Leadership": compatibilityData["Leadership"] / 10,
+                    "Culture Fit": compatibilityData["Culture Fit"] / 10,
+                },
+                strengths: compatibilityData["Key Strength"] || [],
+                concerns: compatibilityData["Concerns"] || [],
+                red_flags: [],
+                bias_flags: [],
+                summary: `Overall compatibility score of ${compatibilityData.score}/10. ${compatibilityData["Key Strength"]?.[0] || ""} However, ${compatibilityData["Concerns"]?.[0] || "some concerns were noted."}`
+            };
             // Use candidate-specific mock scorecard for demo
-            const mockScorecard = getCandidateSpecificScorecard(selectedCandidate);
-            const transformedScorecard: ScorecardData = mockScorecard;
+            // const mockScorecard = getCandidateSpecificScorecard(selectedCandidate);
+            // const transformedScorecard: ScorecardData = mockScorecard;
 
             setScorecard(transformedScorecard);
         } catch (err) {
