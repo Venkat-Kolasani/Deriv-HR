@@ -72,7 +72,7 @@ const JOB_DESCRIPTION = {
 };
 
 /* ── Types ── */
-interface ScorecardData {
+export interface ScorecardData {
     overall_score: number;
     competencies: Record<string, number>;
     strengths: string[];

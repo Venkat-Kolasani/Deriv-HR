@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SALARY_BENCHMARKS, INHOUSE_SALARY_RANGES, type CandidateProfile } from "@/app/lib/mock-candidates";
 import { parseFlowiseStructuredOutput } from "@/app/lib/flowise";
 import { getMockCompensationData } from "@/app/lib/mock-flowise-response";
+import { ScorecardData } from "../feedback/FeedbackClient";
 
 /* ── Types ── */
 interface CompAnalysis {
@@ -51,7 +52,7 @@ function HiringSteps({ active }: { active: number }) {
 export default function CompensationClient() {
     const [candidate, setCandidate] = useState<CandidateProfile | null>(null);
     const [feedbackScore, setFeedbackScore] = useState<number>(0);
-    const [scorecard, setScorecard] = useState<any>(null);
+    const [scorecard, setScorecard] = useState<ScorecardData | null>(null);
     const [analysis, setAnalysis] = useState<CompAnalysis | null>(null);
     const [analyzing, setAnalyzing] = useState(false);
 
@@ -83,7 +84,7 @@ export default function CompensationClient() {
                     role: candidate.role,
                     location: candidate.location,
                     experience: candidate.experience,
-                    aiReviewScore: feedbackScore,
+                    aiReviewScorePercentage: feedbackScore,
                     strengths: scorecard?.strengths || [],
                     weaknesses: scorecard?.concerns || [],
                     previousSalary: candidate.previousSalary || null,
@@ -108,26 +109,26 @@ export default function CompensationClient() {
 
             const prompt = JSON.stringify(compensationData);
 
-            // Call Flowise prediction API
-            // const response = await fetch('http://localhost:3000/api/v1/prediction/d4bfa403-8021-423b-9232-6d75e8a38eb3', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         question: prompt,
-            //     }),
-            // });
+            //Call Flowise prediction API
+            const response = await fetch('http://localhost:3000/api/v1/prediction/d4bfa403-8021-423b-9232-6d75e8a38eb3', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: prompt,
+                }),
+            });
 
-            // if (!response.ok) {
-            //     throw new Error(`HTTP error! status: ${response.status}`);
-            // }
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-            // const result = await response.json();
+            const result = await response.json();
 
-            // Parse the Flowise structured output
-            // const parsed = parseFlowiseStructuredOutput<CompAnalysis>(result);
-            const parsed = getMockCompensationData();
+            //Parse the Flowise structured output
+            const parsed = parseFlowiseStructuredOutput<CompAnalysis>(result);
+            // const parsed = getMockCompensationData();
             
             // Validate that required fields exist
             if (parsed && parsed.baseSalary && parsed.totalComp) {
@@ -153,9 +154,13 @@ export default function CompensationClient() {
 
     function handleProceed() {
         if (!analysis || !candidate) return;
+        const benchmarks = SALARY_BENCHMARKS[candidate.role]?.[candidate.location] || SALARY_BENCHMARKS[candidate.role]?.["Malaysia"];
+        const inHouseRanges = INHOUSE_SALARY_RANGES[candidate.role]?.[candidate.location] || INHOUSE_SALARY_RANGES[candidate.role]?.["Malaysia"];
+        
         const data = {
             candidate,
             feedbackScore,
+            scorecard,
             selectedScenario: {
                 label: analysis.label,
                 baseSalary: analysis.baseSalary,
@@ -166,6 +171,21 @@ export default function CompensationClient() {
                 justification: analysis.justification,
                 pros: analysis.pros,
             },
+            salaryComparison: {
+                candidateExpectedRange: candidate.expectedSalaryRange,
+                marketBenchmarks: {
+                    p25: benchmarks?.p25 || 0,
+                    p50: benchmarks?.p50 || 0,
+                    p75: benchmarks?.p75 || 0,
+                    p90: benchmarks?.p90 || 0,
+                },
+                inHouseSalaryRange: {
+                    min: inHouseRanges?.min || 0,
+                    median: inHouseRanges?.median || 0,
+                    max: inHouseRanges?.max || 0,
+                    sampleSize: inHouseRanges?.sampleSize || 0,
+                }
+            }
         };
         localStorage.setItem("hiring-compensation-data", JSON.stringify(data));
         window.location.href = "/hiring/approval";

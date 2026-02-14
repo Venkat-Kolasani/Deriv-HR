@@ -217,7 +217,7 @@
           "LLM"
         ],
         "category": "Agent Flows",
-        "description": "Large language models to analyze compensation data and generate a recommended offer scenario",
+        "description": "Large language model to generate comprehensive approval briefs for hiring decisions",
         "inputParams": [
           {
             "label": "Model",
@@ -480,81 +480,53 @@
           "llmMessages": [
             {
               "role": "assistant",
-              "content": "<p>You are an expert compensation analyst at a global fintech company. Generate a single optimal recommended package based on the candidate info, market data, and inhouse data provided with the optimal compensation (lower is better) in relation to acceptanceProbability.</p>"
+              "content": "<p>You are an expert HR executive preparing approval briefs for senior leadership. Generate a comprehensive approval brief based on the candidate profile, interview feedback, compensation recommendation, and organizational context provided.</p>"
             }
           ],
           "llmEnableMemory": false,
           "llmReturnResponseAs": "userMessage",
           "llmStructuredOutput": [
             {
-              "key": "label",
+              "key": "candidateHighlight",
               "type": "string",
               "enumValues": "",
               "jsonSchema": "",
-              "description": "Offer scenario label (e.g., Recommended Offer)"
+              "description": "Key highlights about the candidate including qualifications and achievements"
             },
             {
-              "key": "baseSalary",
-              "type": "number",
-              "enumValues": "",
-              "jsonSchema": "",
-              "description": "Base salary amount in USD"
-            },
-            {
-              "key": "signingBonus",
-              "type": "number",
-              "enumValues": "",
-              "jsonSchema": "",
-              "description": "Signing bonus amount in USD"
-            },
-            {
-              "key": "equity",
+              "key": "interviewAssessment",
               "type": "string",
               "enumValues": "",
               "jsonSchema": "",
-              "description": "Equity grant description"
+              "description": "Comprehensive assessment of interview performance and feedback"
             },
             {
-              "key": "totalComp",
-              "type": "number",
-              "enumValues": "",
-              "jsonSchema": "",
-              "description": "Total compensation (baseSalary + signingBonus)"
-            },
-            {
-              "key": "acceptanceProbability",
-              "type": "number",
-              "enumValues": "",
-              "jsonSchema": "",
-              "description": "Offer acceptance probability from 0-100"
-            },
-            {
-              "key": "justification",
+              "key": "compensationRecommendation",
               "type": "string",
               "enumValues": "",
               "jsonSchema": "",
-              "description": "Concise sentence explaining why this probability was chosen"
+              "description": "Detailed compensation package recommendation and justification"
             },
             {
-              "key": "pros",
-              "type": "stringArray",
-              "enumValues": "",
-              "jsonSchema": "",
-              "description": "Array of pros for this scenario"
-            },
-            {
-              "key": "rationale",
+              "key": "strategicValue",
               "type": "string",
               "enumValues": "",
               "jsonSchema": "",
-              "description": "2-3 sentences explaining the compensation strategy"
+              "description": "Strategic value and business justification for this hire"
             },
             {
-              "key": "negotiation_playbook",
+              "key": "riskAssessment",
               "type": "string",
               "enumValues": "",
               "jsonSchema": "",
-              "description": "3-4 sentences of negotiation guidance"
+              "description": "Analysis of potential risks and mitigation strategies"
+            },
+            {
+              "key": "recommendation",
+              "type": "string",
+              "enumValues": "",
+              "jsonSchema": "",
+              "description": "Final hiring recommendation with rationale"
             }
           ],
           "llmUpdateState": "",

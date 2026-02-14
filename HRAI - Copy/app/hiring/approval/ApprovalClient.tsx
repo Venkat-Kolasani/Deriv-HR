@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { type CandidateProfile } from "@/app/lib/mock-candidates";
-import { askFlowise, CHATFLOW_IDS } from "@/app/lib/flowise";
+import { parseFlowiseStructuredOutput } from "@/app/lib/flowise";
+import { getMockApprovalBrief, type ApprovalBrief } from "@/app/lib/mock-flowise-response";
+import { ScorecardData } from "../feedback/FeedbackClient";
 
 /* ── Step indicator ── */
 function HiringSteps({ active }: { active: number }) {
@@ -36,7 +38,9 @@ function HiringSteps({ active }: { active: number }) {
 export default function ApprovalClient() {
     const [candidate, setCandidate] = useState<CandidateProfile | null>(null);
     const [feedbackScore, setFeedbackScore] = useState(0);
+    const [scorecard, setScorecard] = useState<ScorecardData | null>(null);
     const [selectedOffer, setSelectedOffer] = useState<any>(null);
+    const [salaryComparison, setSalaryComparison] = useState<any>(null);
     const [brief, setBrief] = useState("");
     const [loading, setLoading] = useState(false);
     const [decision, setDecision] = useState<"approved" | "rejected" | "discuss" | null>(null);
@@ -49,7 +53,9 @@ export default function ApprovalClient() {
                 const parsed = JSON.parse(compData);
                 setCandidate(parsed.candidate);
                 setFeedbackScore(parsed.feedbackScore);
+                setScorecard(parsed.scorecard);
                 setSelectedOffer(parsed.selectedScenario);
+                setSalaryComparison(parsed.salaryComparison);
             } catch { }
         }
         // Also load feedback data for score
@@ -59,6 +65,7 @@ export default function ApprovalClient() {
                 const parsed = JSON.parse(fbData);
                 setCandidate(parsed.candidate);
                 setFeedbackScore(parsed.scorecard?.overall_score || 0);
+                setScorecard(parsed.scorecard);
             } catch { }
         }
     }, []);
@@ -70,72 +77,150 @@ export default function ApprovalClient() {
         const fmt = (n: number) => "$" + n.toLocaleString();
 
         try {
-            const prompt = `You are an executive communications specialist. Write a concise CEO approval brief for a hiring decision.
+            // Format data as structured JSON for the Flowise endpoint
+            const approvalData = {
+                candidate: {
+                    name: candidate.name,
+                    role: candidate.role,
+                    department: candidate.department,
+                    location: candidate.location,
+                    experience: candidate.experience,
+                },
+                reviewScore: scorecard || {
+                    overall_scorePercentage: feedbackScore,
+                    competenciesPercentage: {},
+                    strengths: [],
+                    concerns: [],
+                    red_flags: [],
+                    bias_flags: [],
+                    summary: ""
+                },
+                proposedOffer: {
+                    baseSalary: selectedOffer.baseSalary,
+                    signingBonus: selectedOffer.signingBonus,
+                    equity: selectedOffer.equity,
+                    totalComp: selectedOffer.totalComp,
+                    offerType: selectedOffer.label,
+                },
+                salaryComparison: salaryComparison || {
+                    candidateExpectedRange: null,
+                    marketBenchmarks: {},
+                    inHouseSalaryRange: {}
+                }
+            };
 
-CANDIDATE: ${candidate.name}
-ROLE: ${candidate.role}
-DEPARTMENT: ${candidate.department}
-LOCATION: ${candidate.location}
-EXPERIENCE: ${candidate.experience} years
-AI REVIEW SCORE: ${feedbackScore}/10
+            const prompt = JSON.stringify(approvalData);
 
-PROPOSED OFFER:
-- Base Salary: ${fmt(selectedOffer.baseSalary)}
-- Signing Bonus: ${fmt(selectedOffer.signingBonus)}
-- Equity: ${selectedOffer.equity}
-- Total Comp: ${fmt(selectedOffer.totalComp)}
-- Offer Type: ${selectedOffer.label}
-- Acceptance Probability: ${selectedOffer.acceptanceProbability}%
-- Probability Justification: ${selectedOffer.justification}
+            //Call Flowise prediction API
+            const response = await fetch('http://localhost:3000/api/v1/prediction/f502f91d-ab6f-4254-83cc-1348d8b1f819', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: prompt,
+                }),
+            });
 
-Write the brief in clear markdown with these exact sections:
-## Candidate Highlight
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            //Parse the Flowise structured output
+            const parsed = parseFlowiseStructuredOutput<ApprovalBrief>(result);
+            // const parsed = getMockApprovalBrief(
+            //     candidate.name,
+            //     candidate.role,
+            //     candidate.experience,
+            //     candidate.department,
+            //     candidate.location,
+            //     feedbackScore,
+            //     selectedOffer.label,
+            //     selectedOffer.baseSalary,
+            //     selectedOffer.signingBonus,
+            //     selectedOffer.equity,
+            //     selectedOffer.totalComp,
+            //     selectedOffer.acceptanceProbability,
+            //     selectedOffer.justification
+            // );
+            
+            // Validate that required fields exist
+            if (parsed && parsed.candidateHighlight) {
+                // Convert structured data to markdown format
+                const briefMarkdown = `## Candidate Highlight
+
+${parsed.candidateHighlight}
+
 ## Interview Assessment
+
+${parsed.interviewAssessment}
+
 ## Compensation Recommendation
+
+${parsed.compensationRecommendation}
+
 ## Strategic Value
+
+${parsed.strategicValue}
+
 ## Risk Assessment
+
+${parsed.riskAssessment}
+
 ## Recommendation
 
-Keep it concise and executive-friendly. 2-3 sentences per section maximum.`;
-
-            const result = await askFlowise(CHATFLOW_IDS.EXECUTIVE_BRIEF, prompt);
-            setBrief(result.text || "");
+${parsed.recommendation}`;
+                
+                setBrief(briefMarkdown);
+            } else {
+                throw new Error("Invalid response structure from API");
+            }
         } catch (err) {
             console.error("Flowise call failed, using mock brief:", err);
+            
+            const mockBrief = getMockApprovalBrief(
+                candidate.name,
+                candidate.role,
+                candidate.experience,
+                candidate.department,
+                candidate.location,
+                feedbackScore,
+                selectedOffer.label,
+                selectedOffer.baseSalary,
+                selectedOffer.signingBonus,
+                selectedOffer.equity,
+                selectedOffer.totalComp,
+                selectedOffer.acceptanceProbability,
+                selectedOffer.justification
+            );
+            
+            const briefMarkdown = `## Candidate Highlight
 
-            const fmt = (n: number) => "$" + n.toLocaleString();
-
-            setBrief(`## Candidate Highlight
-
-**${candidate.name}** is a ${candidate.experience}-year veteran applying for **${candidate.role}** in the ${candidate.department} department, based in ${candidate.location}. Their profile demonstrates exceptional technical depth and proven leadership in high-scale fintech environments.
+${mockBrief.candidateHighlight}
 
 ## Interview Assessment
 
-The candidate completed 4 rounds of interviews and received an **AI-synthesized score of ${feedbackScore}/10**. Key strengths include strong system design capabilities, team leadership experience, and genuine domain enthusiasm. Minor concern noted around tenure stability (3 moves in 5 years, each to higher positions).
+${mockBrief.interviewAssessment}
 
 ## Compensation Recommendation
 
-We recommend the **${selectedOffer.label}** offer package:
-- **Base Salary:** ${fmt(selectedOffer.baseSalary)}
-- **Signing Bonus:** ${fmt(selectedOffer.signingBonus)}
-- **Equity:** ${selectedOffer.equity}
-- **Total First-Year Compensation:** ${fmt(selectedOffer.totalComp)}
-
-This positions us at market median, with an estimated **${selectedOffer.acceptanceProbability}% acceptance probability**.
-- **Reasoning:** ${selectedOffer.justification}
-
+${mockBrief.compensationRecommendation}
 
 ## Strategic Value
 
-${candidate.name} brings direct experience in high-frequency trading platform architecture, which aligns with our Q3 roadmap to improve transaction processing speed. Their open-source contributions and published research add to our employer brand credibility.
+${mockBrief.strategicValue}
 
 ## Risk Assessment
 
-**Low risk.** All reference checks were positive. The candidate's tenure pattern shows upward mobility rather than instability. The primary risk is a competing offer from their current employer — the signing bonus is designed to mitigate this.
+${mockBrief.riskAssessment}
 
 ## Recommendation
 
-**Proceed with ${selectedOffer.label} offer.** The candidate's technical skills, leadership potential, and cultural alignment make them a strong addition to the team. Recommend extending the offer within 48 hours to maintain candidate engagement.`);
+${mockBrief.recommendation}`;
+            
+            setBrief(briefMarkdown);
         } finally {
             setLoading(false);
         }

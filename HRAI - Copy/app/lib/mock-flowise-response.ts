@@ -74,40 +74,6 @@ export function getMockScorecardData(): CompatibilityScore {
 }
 
 /**
- * Pretty print the parsed scorecard data
- */
-export function displayParsedData() {
-    const scorecard = getMockScorecardData();
-    
-    console.log("=== PARSED SCORECARD DATA ===\n");
-    console.log(`Overall Score: ${scorecard.overall_score}/10\n`);
-    
-    console.log("Competencies:");
-    Object.entries(scorecard.competencies).forEach(([key, value]) => {
-        console.log(`  - ${key}: ${value}/10`);
-    });
-    
-    console.log("\nStrengths:");
-    scorecard.strengths.forEach((strength, i) => {
-        console.log(`  ${i + 1}. ${strength}`);
-    });
-    
-    console.log("\nConcerns:");
-    scorecard.concerns.forEach((concern, i) => {
-        console.log(`  ${i + 1}. ${concern}`);
-    });
-    
-    console.log("\nBias Flags:");
-    scorecard.bias_flags.forEach((flag, i) => {
-        console.log(`  ${i + 1}. ${flag}`);
-    });
-    
-    console.log(`\nSummary:\n${scorecard.summary}`);
-    
-    return scorecard;
-}
-
-/**
  * Mock compensation analysis data
  */
 export interface CompensationAnalysis {
@@ -144,5 +110,38 @@ export function getMockCompensationData(): CompensationAnalysis {
         ],
         rationale: "The proposed compensation package is strategically designed to align with Sarah Chen's experience and strong profile, placing her at the 75th percentile of the market for a Senior Software Engineer. By offering a competitive base salary alongside a significant signing bonus, we aim to meet her salary expectations and secure her acceptance. This structure acknowledges her value while remaining within our established internal compensation framework.",
         negotiation_playbook: "Highlight the strength of the total compensation package, emphasizing the base salary's position at the 75th percentile of market data, which reflects her extensive experience and leadership potential. Clearly articulate the immediate financial benefit of the signing bonus and the long-term growth potential through equity. If the candidate pushes for a higher base salary, reiterate the overall value of the package and underscore the company's commitment to competitive compensation and career development opportunities."
+    };
+}
+
+/**
+ * Mock approval brief data
+ */
+export interface ApprovalBrief {
+    candidateHighlight: string;
+    interviewAssessment: string;
+    compensationRecommendation: string;
+    strategicValue: string;
+    riskAssessment: string;
+    recommendation: string;
+}
+
+/**
+ * Returns mock approval brief data in structured format
+ */
+export function getMockApprovalBrief(candidateName: string, candidateRole: string, experience: number, department: string, location: string, aiScore: number, offerLabel: string, baseSalary: number, signingBonus: number, equity: string, totalComp: number, acceptanceProbability: number, justification: string): ApprovalBrief {
+    const fmt = (n: number) => "$" + n.toLocaleString();
+    
+    return {
+        candidateHighlight: `**${candidateName}** is a ${experience}-year veteran applying for **${candidateRole}** in the ${department} department, based in ${location}. Their profile demonstrates exceptional technical depth and proven leadership in high-scale fintech environments.`,
+        
+        interviewAssessment: `The candidate completed 4 rounds of interviews and received an **AI-synthesized score of ${aiScore}/10**. Key strengths include strong system design capabilities, team leadership experience, and genuine domain enthusiasm. Minor concern noted around tenure stability (3 moves in 5 years, each to higher positions).`,
+        
+        compensationRecommendation: `We recommend the **${offerLabel}** offer package:\n- **Base Salary:** ${fmt(baseSalary)}\n- **Signing Bonus:** ${fmt(signingBonus)}\n- **Equity:** ${equity}\n- **Total First-Year Compensation:** ${fmt(totalComp)}\n\nThis positions us at market median, with an estimated **${acceptanceProbability}% acceptance probability**.\n- **Reasoning:** ${justification}`,
+        
+        strategicValue: `${candidateName} brings direct experience in high-frequency trading platform architecture, which aligns with our Q3 roadmap to improve transaction processing speed. Their open-source contributions and published research add to our employer brand credibility.`,
+        
+        riskAssessment: `**Low risk.** All reference checks were positive. The candidate's tenure pattern shows upward mobility rather than instability. The primary risk is a competing offer from their current employer — the signing bonus is designed to mitigate this.`,
+        
+        recommendation: `**Proceed with ${offerLabel} offer.** The candidate's technical skills, leadership potential, and cultural alignment make them a strong addition to the team. Recommend extending the offer within 48 hours to maintain candidate engagement.`
     };
 }
