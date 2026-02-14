@@ -1,0 +1,30 @@
+The CEO Approval Brief (Step 3) takes the combined data from the previous two steps to create a persuasive business case.
+
+Here is exactly what is fed into the AI to generate that brief:
+
+1. Data Sources
+The component (
+ApprovalClient.tsx
+) pulls this from localStorage:
+
+From Step 1 (Feedback): The candidate's profile and their AI Scorecard result (e.g., 8.2/10).
+From Step 2 (Compensation): The specific Offer Scenario you selected (Conservative, Competitive, or Aggressive).
+2. The exact variables used in the AI Prompt:
+When you click into Step 3, the AI receives this "Context Pack":
+
+Category	Specific Fields
+Candidate Identity	Name, Role, Department, Location, Experience (years)
+Interview Result	The overall AI Review Score (e.g., 8.2/10)
+Proposed Offer	Base Salary, Signing Bonus, Equity, Total Comp, and Offer Type
+Offer Sentiment	The Acceptance Probability and its AI Justification
+3. How the AI uses it:
+The AI is instructed to act as an "executive communications specialist" and synthesize these raw numbers into a concise 6-section brief:
+
+Candidate Highlight: Why this person?
+Interview Assessment: Summary of the interview score.
+Compensation Recommendation: Why this specific salary package?
+Strategic Value: Impact on the company roadmap.
+Risk Assessment: Reference checks or tenure concerns.
+Recommendation: "Approve" or "Decline".
+In short: It takes the qualitative feedback from Step 1 and the quantitative math from Step 2 to build the final executive narrative for the CEO.
+
