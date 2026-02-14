@@ -9,7 +9,8 @@ import {
 
 export async function POST(req: NextRequest) {
     try {
-        const { candidateName, role, content } = await req.json();
+        const { candidateName, role, content, documentType } = await req.json();
+        const docLabel = (documentType || "Offer_Letter").replace(/\s+/g, "_");
 
         if (!content) {
             return NextResponse.json(
@@ -152,7 +153,7 @@ export async function POST(req: NextRequest) {
             headers: {
                 "Content-Type":
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                "Content-Disposition": `attachment; filename="Offer_Letter_${(candidateName || "Candidate").replace(/\s+/g, "_")}.docx"`,
+                "Content-Disposition": `attachment; filename="${docLabel}_${(candidateName || "Candidate").replace(/\s+/g, "_")}.docx"`,
             },
         });
     } catch (err: any) {
