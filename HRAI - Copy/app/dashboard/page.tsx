@@ -26,7 +26,7 @@ export default function DashboardPage() {
         alerts: alerts || [],
         briefing,
         kpis,
-        activityLog: activityLog || [],
+        activityLog: Array.isArray(activityLog) ? activityLog : activityLog ? Object.values(activityLog) : [],
         company,
       });
     });

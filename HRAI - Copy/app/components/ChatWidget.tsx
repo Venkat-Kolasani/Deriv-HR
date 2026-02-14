@@ -56,7 +56,7 @@ export default function ChatWidget() {
         chatAssistant: chatAssistant || {},
         company: company || {},
       });
-    }).catch(() => {});
+    }).catch(() => { });
   }, []);
 
   // Auto-scroll messages
@@ -204,9 +204,9 @@ export default function ChatWidget() {
         <strong>3 of 12</strong> EU employees haven't completed mandatory workplace safety training. Deadline: <strong>Feb 20, 2026</strong>.<br><br>
         Pending employees:<br>
         ${overdueNames
-          .split(", ")
-          .map((n: string) => "&bull; " + n)
-          .join("<br>")}<br><br>
+            .split(", ")
+            .map((n: string) => "&bull; " + n)
+            .join("<br>")}<br><br>
         <a href="/compliance?alert=training-eu" style="color:var(--accent);text-decoration:underline">→ Send reminder via Compliance page</a>`;
       }
 
